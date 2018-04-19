@@ -1,78 +1,79 @@
+"""
+Copyright 2018 Google LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+"""
 from collections import OrderedDict
-import itertools
+import json
 import math
 from multiprocessing import Pool
 import os
-import urllib.parse
+import re
+import subprocess
 
-import ffmpeg
 from PIL import Image
-import requests
-from x256 import x256
 
-from .constants import NOCOLOR_CHARS, STORED_CELL_CHAR
+from ..constants import NOCOLOR_CHARS
+from ..utils import get_sorted_filenames
 
-
-def avg(it):
-    l = len(it)
-    return sum(it) / float(l)
-
-
-def get_avg_for_em(px, x, y, cell_height, cell_width):
-    pixels = [
-        px[sx, sy]
-        for sy in range(y, y + cell_height)
-        for sx in range(x, x + cell_width)
-    ]
-    return [round(n) for n in map(avg, zip(*pixels))]
+from .utils import (
+    avg,
+    get_gray,
+    get_256_cell,
+    get_truecolor_cell,
+    get_avg_for_em,
+    _log_frame_progress,
+)
 
 
-def get_gray(*rgb):
-    return avg(rgb)
+def _save_config(num_frames, seconds, **options):
+    d = {
+        key: options.get(key)
+        for key in [
+            'input_source',
+            'input_source_file',
+            'cols',
+            'cell_width',
+            'cell_height',
+        ]
+    }
+    d['num_frames'] = num_frames
+    d['seconds'] = seconds
 
-
-def get_256_cell(r, g, b):
-    return u'\u001b[38;5;{}m{}'.format(x256.from_rgb(r, g, b), STORED_CELL_CHAR)
-
-
-def get_truecolor_cell(r, g, b):
-    return u'\u001b[38;2;{};{};{}m{}'.format(r, g, b, STORED_CELL_CHAR)
-
-
-def process_input_source(input_source):
-    if not os.path.exists(input_source) and not input_source.startswith('http://') and not input_source.startswith('https://'):
-        apikey = 'TQ7VXFHXBJQ5'
-
-        # get from Tenor GIF API
-        if input_source.isdigit():
-            endpoint = 'gifs'
-            query = 'ids={}'.format(urllib.parse.quote_plus(input_source))
-        elif input_source == '':
-            endpoint = 'trending'
-            query = 'limit=1'
-        else:
-            endpoint = 'search'
-            query = 'limit=1&q={}'.format(urllib.parse.quote_plus(input_source))
-
-        resp = requests.get('https://api.tenor.com/v1/{}?key={}&{}'.format(endpoint, apikey, query))
-        results = resp.json()['results']
-        if not results:
-            sys.stderr.write('Could not find GIF.')
-            sys.exit(1)
-
-        input_source = results[0]['media'][0]['mp4']['url']
-    return input_source
+    with open('{}/config.json'.format(options['output_dirnames']['.']), 'w') as f:
+        json.dump(d, f)
 
 
 def _run_ffmpeg(input_source_file, output_dirnames, cols, cell_width, **options):
     scale_width = cols * cell_width
 
-    stream = ffmpeg.input(input_source_file)
-    stream = stream.output(
-        '{}/%04d.jpg'.format(output_dirnames['jpg']),
-        vf='scale={}:-1'.format(scale_width)
+    cmd = [
+        'ffmpeg',
+        '-i', input_source_file,
+        '-vf', 'scale={}:-1'.format(scale_width),
+        '{}/%04d.jpg'.format(output_dirnames['jpg'])
+    ]
+    p = subprocess.Popen(cmd,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
     )
-    ffmpeg.run(stream)
+    out, err = p.communicate()
+    err = err.decode('utf8')
+
+    num_frames = int(re.search(r'frame=\s*(\d+)', err).group(1))
+    hours, minutes, seconds = re.search(r'time=(\d{2}):(\d{2}):(\d{2}.\d{2})', err).groups()
+    seconds = float(seconds) + (int(minutes) * 60) + (int(hours) * 3600)
+    return num_frames, seconds
 
 
 def convert_frame(frame_name, **options):
@@ -121,12 +122,21 @@ def convert_frame(frame_name, **options):
         char_idxs[cell] = cur_char_idx
         cur_count += cell_num
 
+    lines_nocolor = []
+    line_nocolor = None
+    for i, gray in enumerate(chars_nocolor):
+        if not line_nocolor:
+            line_nocolor = []
+
+        line_nocolor.append(NOCOLOR_CHARS[char_idxs[gray]])
+
+        if (i + 1) % cols == 0:
+            lines_nocolor.append(''.join(line_nocolor))
+            line_nocolor = None
+
 
     with open('{}/{}.txt'.format(output_dirnames['nocolor'], frame_name), 'w') as f:
-        for i, gray in enumerate(chars_nocolor):
-            if i and i % cols == 0:
-                f.write('\n')
-            f.write(NOCOLOR_CHARS[char_idxs[gray]])
+        f.write('\n'.join(lines_nocolor))
 
     with open('{}/{}.txt'.format(output_dirnames['256'], frame_name), 'w') as f:
         f.write('\n'.join(lines_256))
@@ -135,22 +145,12 @@ def convert_frame(frame_name, **options):
         f.write('\n'.join(lines_truecolor))
 
 
-def _log_frame_progress(total, results, stdout):
-    for count, result in enumerate(itertools.chain([None], results)):
-        if count:
-            stdout.write(u'\u001b[2K\u001b[1000D')
-        stdout.write('Processed {}/{} frames...'.format(count, total))
-        stdout.flush()
-    stdout.write('\n')
-
-
 def _convert_frames(cpu_pool_size, stdout, **options):
     output_dirnames = options['output_dirnames']
 
     frame_names = [
-        de.name.split('.')[0]
-        for de in sorted(os.scandir(output_dirnames['jpg']), key=lambda de: de.name)
-        if de.is_file()
+        filename.split('.')[0]
+        for filename in get_sorted_filenames(output_dirnames['jpg'], 'jpg')
     ]
 
     total = len(frame_names)
@@ -169,12 +169,15 @@ def _convert_frames(cpu_pool_size, stdout, **options):
                 pool.apply_async(convert_frame, [frame_name], options)
                 for frame_name in frame_names
             ]
+            # then use a generator to iterate as they execute.
             results = (r.get() for r in results)
             _log_frame_progress(total, results, stdout)
 
 
 def generate(**options):
     # extract frames to files
-    _run_ffmpeg(**options)
+    num_frames, seconds = _run_ffmpeg(**options)
+
+    _save_config(num_frames, seconds, **options)
 
     _convert_frames(**options)
