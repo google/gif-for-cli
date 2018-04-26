@@ -83,5 +83,9 @@ def execute(environ, argv, stdout):
     )
 
 
-if __name__ == '__main__': # pragma: no cover
+def main(): # pragma: no cover
     execute(os.environ, sys.argv[1:], sys.stdout)
+
+
+if __name__ == '__main__': # pragma: no cover
+    main()

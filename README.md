@@ -2,7 +2,7 @@
 
 Takes in a GIF, short video, or a query to the Tenor GIF API and converts it to animated ASCII art. Animation and color support are performed using ANSI escape sequences.
 
-Recommened use case: put one of the example commands in your `.bashrc` to get an animated ASCII art image as your MOTD!
+Recommened use case: put one of the example commands in your `.bashrc` or `.profile` to get an animated ASCII art image as your MOTD!
 
 This script will automatically detect how many colors the current terminal uses and display the correct version:
 
@@ -36,30 +36,42 @@ Or install from PyPI:
 
 ### File/URL
 
+    gif-for-cli path/to/some.gif
+    gif-for-cli http://example.com/foo.gif
+    gif-for-cli http://example.com/foo.mp4
+
+Executing as a Python module is also supported:
+
     python3 -m gif_for_cli path/to/some.gif
-    python3 -m gif_for_cli http://example.com/foo.gif
-    python3 -m gif_for_cli http://example.com/foo.mp4
 
 ### Query Tenor's API
 
 Queries to Tenor's GIF API can also be performed:
 
     # get current top trending GIF
-    python3 -m gif_for_cli
+    gif-for-cli
 
     # get top GIF for "Happy Birthday"
-    python3 -m gif_for_cli "Happy Birthday"
+    gif-for-cli "Happy Birthday"
 
     # get GIF with ID #5437241
     # browse https://tenor.com/ for more!
-    python3 -m gif_for_cli 5437241
-    python3 -m gif_for_cli https://tenor.com/view/the-matrix-gif-5437241
+    gif-for-cli 5437241
+    gif-for-cli https://tenor.com/view/the-matrix-gif-5437241
 
 ### Help
 
 See more generation/display options:
 
-    python3 -m gif_for_cli --help
+    gif-for-cli --help
+
+### Troubleshooting
+
+If you get an error like the following:
+
+    -bash: gif-for-cli: command not found
+
+Chances are gif-for-cli was installed in a location not on your `PATH`. This can happen if running `gif-for-cli` in your `.bashrc`, but it was installed into `~/.local/bin`, and that directory hasn't been added to your `PATH`.
 
 ## About Tenor
 
