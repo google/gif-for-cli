@@ -30,9 +30,9 @@ setup(
         'console_scripts': ['gif-for-cli=gif_for_cli.__main__:main'],
     },
     install_requires=[
-        'Pillow==5.1.0', # PIL Software License
-        'requests==2.18.4', # Apache License 2.0
-        'x256==0.0.3', # MIT License
+        'Pillow>=5.1.0', # PIL Software License
+        'requests>=2.18.4', # Apache License 2.0
+        'x256>=0.0.3', # MIT License
     ],
     tests_require=[
         'coverage>=4.5.1',
