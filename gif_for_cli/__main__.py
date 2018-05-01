@@ -49,6 +49,7 @@ def execute(environ, argv, stdout):
         __version__,
         input_source_hash,
         args.cols,
+        args.rows,
         args.cell_width,
         args.cell_height
     )
@@ -63,6 +64,7 @@ def execute(environ, argv, stdout):
             input_source=input_source,
             input_source_file=input_source_file,
             cols=args.cols,
+            rows=args.rows,
             cell_width=args.cell_width,
             cell_height=args.cell_height,
             output_dirnames=output_dirnames,

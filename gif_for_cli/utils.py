@@ -90,19 +90,29 @@ def get_parser(environ):
         '--cols',
         dest='cols',
         type=int,
-        default=160
+        default=160,
+        help='Maximum number of columns.'
+    )
+    parser.add_argument(
+        '--rows',
+        dest='rows',
+        type=int,
+        default=40,
+        help='Maximum number of rows.'
     )
     parser.add_argument(
         '-cw',
         dest='cell_width',
         type=int,
-        default=3
+        default=3,
+        help='Number of pixels in width you want mapped to a single character.'
     )
     parser.add_argument(
         '-ch',
         dest='cell_height',
         type=int,
-        default=6
+        default=6,
+        help='Number of pixels in height you want mapped to a single character.'
     )
 
     # generation related options, but doens't affect generated output.
@@ -116,14 +126,15 @@ def get_parser(environ):
     return parser
 
 
-def get_output_dirnames(home_dir, version, input_source_hash, cols, cell_width, cell_height):
+def get_output_dirnames(home_dir, version, input_source_hash, cols, rows, cell_width, cell_height):
     # include generator options in path
     output_dirnames = {
-        '.': '{}/.cache/gif-for-cli/{}/{}-{}cols-cw{}px-ch{}px'.format(
+        '.': '{}/.cache/gif-for-cli/{}/{}-{}cols-{}rows-cw{}px-ch{}px'.format(
             home_dir,
             version,
             input_source_hash,
             cols,
+            rows,
             cell_width,
             cell_height
         ),

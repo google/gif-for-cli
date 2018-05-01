@@ -68,11 +68,12 @@ class TestGetOutputDirnames(unittest.TestCase):
             '0.0.0',
             '2094cb18c10ddb47dbe239ddbd702cc0',
             160,
+            140,
             3,
             6
         )
 
-        dirname = '/home/foo/.cache/gif-for-cli/0.0.0/2094cb18c10ddb47dbe239ddbd702cc0-160cols-cw3px-ch6px'
+        dirname = '/home/foo/.cache/gif-for-cli/0.0.0/2094cb18c10ddb47dbe239ddbd702cc0-160cols-140rows-cw3px-ch6px'
 
         self.assertEqual(output_dirnames['.'], dirname)
         self.assertEqual(output_dirnames['jpg'], dirname + '/jpg')

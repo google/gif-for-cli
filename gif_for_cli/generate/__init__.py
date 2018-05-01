@@ -54,13 +54,14 @@ def _save_config(num_frames, seconds, **options):
         json.dump(d, f)
 
 
-def _run_ffmpeg(input_source_file, output_dirnames, cols, cell_width, **options):
+def _run_ffmpeg(input_source_file, output_dirnames, cols, rows, cell_width, cell_height, **options):
     scale_width = cols * cell_width
+    scale_height = rows * cell_height
 
     cmd = [
         'ffmpeg',
         '-i', input_source_file,
-        '-vf', 'scale={}:-1'.format(scale_width),
+        '-vf', 'scale=w={}:h={}:force_original_aspect_ratio=decrease'.format(scale_width, scale_height),
         '{}/%04d.jpg'.format(output_dirnames['jpg'])
     ]
     p = subprocess.Popen(cmd,
@@ -85,6 +86,7 @@ def convert_frame(frame_name, **options):
     img = Image.open('{}/{}.jpg'.format(output_dirnames['jpg'], frame_name))
     px = img.load()
     width, height = img.size
+    # trim image if needed.
     width = width - (width % cell_width)
     height = height - (height % cell_height)
     cols = math.floor(width / cell_width)

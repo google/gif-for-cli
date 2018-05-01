@@ -35,6 +35,7 @@ class TestExecute(unittest.TestCase):
 
         input_source = ''
         cols = 160
+        rows = 40
         cell_width = 3
         cell_height = 6
         num_frames = 11
@@ -45,6 +46,7 @@ class TestExecute(unittest.TestCase):
                 'input_source': input_source,
                 'input_source_file': input_source,
                 'cols': cols,
+                'rows': rows,
                 'cell_width': cell_width,
                 'cell_height': cell_height,
                 'num_frames': num_frames,
@@ -63,22 +65,22 @@ class TestExecute(unittest.TestCase):
             for call in mock_exists.call_args_list[-6:]
         ])
         self.assertTrue(paths[0].endswith(
-            '/d41d8cd98f00b204e9800998ecf8427e-160cols-cw3px-ch6px'
+            '/d41d8cd98f00b204e9800998ecf8427e-160cols-40rows-cw3px-ch6px'
         ))
         self.assertTrue(paths[1].endswith(
-            '/d41d8cd98f00b204e9800998ecf8427e-160cols-cw3px-ch6px'
+            '/d41d8cd98f00b204e9800998ecf8427e-160cols-40rows-cw3px-ch6px'
         ))
         self.assertTrue(paths[2].endswith(
-            '/d41d8cd98f00b204e9800998ecf8427e-160cols-cw3px-ch6px/256'
+            '/d41d8cd98f00b204e9800998ecf8427e-160cols-40rows-cw3px-ch6px/256'
         ))
         self.assertTrue(paths[3].endswith(
-            '/d41d8cd98f00b204e9800998ecf8427e-160cols-cw3px-ch6px/jpg'
+            '/d41d8cd98f00b204e9800998ecf8427e-160cols-40rows-cw3px-ch6px/jpg'
         ))
         self.assertTrue(paths[4].endswith(
-            '/d41d8cd98f00b204e9800998ecf8427e-160cols-cw3px-ch6px/nocolor'
+            '/d41d8cd98f00b204e9800998ecf8427e-160cols-40rows-cw3px-ch6px/nocolor'
         ))
         self.assertTrue(paths[5].endswith(
-            '/d41d8cd98f00b204e9800998ecf8427e-160cols-cw3px-ch6px/truecolor'
+            '/d41d8cd98f00b204e9800998ecf8427e-160cols-40rows-cw3px-ch6px/truecolor'
         ))
         self.assertEqual(mock_makedirs.call_count, 5)
         self.assertEqual(mock_generate.call_count, 1)
@@ -94,6 +96,7 @@ class TestExecute(unittest.TestCase):
 
         input_source = ''
         cols = 160
+        rows = 40
         cell_width = 3
         cell_height = 6
         num_frames = 11
@@ -104,6 +107,7 @@ class TestExecute(unittest.TestCase):
                 'input_source': input_source,
                 'input_source_file': input_source,
                 'cols': cols,
+                'rows': rows,
                 'cell_width': cell_width,
                 'cell_height': cell_height,
                 'num_frames': num_frames,
@@ -122,7 +126,7 @@ class TestExecute(unittest.TestCase):
             for call in mock_exists.call_args_list[-6:]
         ])
         self.assertTrue(paths[0].endswith(
-            '/d41d8cd98f00b204e9800998ecf8427e-160cols-cw3px-ch6px'
+            '/d41d8cd98f00b204e9800998ecf8427e-160cols-40rows-cw3px-ch6px'
         ))
         self.assertEqual(mock_makedirs.call_count, 0)
         self.assertEqual(mock_generate.call_count, 0)

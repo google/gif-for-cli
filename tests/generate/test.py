@@ -91,7 +91,9 @@ video:258kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing o
             'input_source_file': 'foo.gif',
             'output_dirnames': {'jpg': 'foo/jpg'},
             'cols': 160,
+            'rows': 160,
             'cell_width': 3,
+            'cell_height': 6,
             'ignoreme': None,
         }
 
