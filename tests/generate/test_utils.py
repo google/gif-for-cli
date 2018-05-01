@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import io
+import json
 import unittest
 from unittest.mock import patch, Mock
 
@@ -189,9 +190,12 @@ class TestGetAvgForEm(unittest.TestCase):
 @patch('os.path.exists')
 @patch('gif_for_cli.generate.utils.requests')
 class TestProcessInputSource(unittest.TestCase):
-    def set_mock_response(self, mock_requests, data):
+    def set_mock_response(self, mock_requests, data, side_effect=False):
         mock_response = Mock()
-        mock_response.json.return_value = data
+        if side_effect:
+            mock_response.json.side_effect = data
+        else:
+            mock_response.json.return_value = data
         mock_requests.get.return_value = mock_response
 
     def test_file(self, mock_requests, mock_exists):
@@ -280,6 +284,62 @@ class TestProcessInputSource(unittest.TestCase):
 
         mpr_url = gif_response['results'][0]['media'][0]['mp4']['url']
         self.assertEqual(processed_input_source, mpr_url)
+        self.assertEqual(mock_exists.call_count, 1)
+        self.assertEqual(mock_requests.get.call_count, 1)
+
+    def test_tenor_gif_id_error_occurred(self, mock_requests, mock_exists):
+        mock_exists.return_value = False
+
+        self.set_mock_response(mock_requests, {'error': 'some error'})
+
+        input_source = '11313704'
+
+        with self.assertRaises(Exception) as cm:
+            process_input_source(input_source)
+
+        self.assertEqual(cm.exception.args[0], 'An error occurred: some error')
+        self.assertEqual(mock_exists.call_count, 1)
+        self.assertEqual(mock_requests.get.call_count, 1)
+
+    def test_tenor_gif_id_empty_json(self, mock_requests, mock_exists):
+        mock_exists.return_value = False
+
+        self.set_mock_response(mock_requests, {})
+
+        input_source = '11313704'
+
+        with self.assertRaises(Exception) as cm:
+            process_input_source(input_source)
+
+        self.assertEqual(cm.exception.args[0], 'Could not find GIF.')
+        self.assertEqual(mock_exists.call_count, 1)
+        self.assertEqual(mock_requests.get.call_count, 1)
+
+    def test_tenor_gif_id_exception_when_getting_json(self, mock_requests, mock_exists):
+        mock_exists.return_value = False
+
+        self.set_mock_response(mock_requests, Exception('some error'), side_effect=True)
+
+        input_source = '11313704'
+
+        with self.assertRaises(Exception) as cm:
+            process_input_source(input_source)
+
+        self.assertEqual(cm.exception.args[0], 'some error')
+        self.assertEqual(mock_exists.call_count, 1)
+        self.assertEqual(mock_requests.get.call_count, 1)
+
+    def test_tenor_gif_id_json_decode_error(self, mock_requests, mock_exists):
+        mock_exists.return_value = False
+
+        self.set_mock_response(mock_requests, lambda *args: json.loads('<'), side_effect=True)
+
+        input_source = '11313704'
+
+        with self.assertRaises(Exception) as cm:
+            process_input_source(input_source)
+
+        self.assertEqual(cm.exception.args[0], 'A server error occurred.')
         self.assertEqual(mock_exists.call_count, 1)
         self.assertEqual(mock_requests.get.call_count, 1)
 

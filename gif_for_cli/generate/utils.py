@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import itertools
+from json.decoder import JSONDecodeError
 import os
 import urllib.parse
 
@@ -74,7 +75,17 @@ def process_input_source(input_source):
             query = 'limit=1&q={}'.format(urllib.parse.quote_plus(input_source))
 
         resp = requests.get('https://api.tenor.com/v1/{}?key={}&{}'.format(endpoint, apikey, query))
-        results = resp.json()['results']
+
+        try:
+            resp_json = resp.json()
+        except JSONDecodeError:
+            raise Exception('A server error occurred.')
+
+        if 'error' in resp_json:
+            raise Exception('An error occurred: {}'.format(resp_json['error']))
+
+        results = resp_json.get('results')
+
         if not results:
             raise Exception('Could not find GIF.')
 
