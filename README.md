@@ -22,15 +22,27 @@ This script will automatically detect how many colors the current terminal uses 
 
 ## Installation
 
-Requires Python 3 and ffmpeg, other depencies are installed by `setup.py`.
+Requires Python 3 (with setuptools), zlib, libjpeg, and ffmpeg, other dependencies are installed by `setup.py`.
+
+Install dependencies:
+
+    sudo apt-get install ffmpeg zlib* libjpeg*
+    # this should enable a pre-built Pillow wheel to be installed, otherwise you may need to install zlib and libjpeg development libraries so Pillow can compile from source.
+    pip3 install --user wheel
 
 Download this repo and run:
 
-    python3 setup.py install
+    python3 setup.py install --user
 
 Or install from PyPI:
 
-    pip3 install gif-for-cli
+    pip3 install --user gif-for-cli
+
+The `gif-for-cli` command will likely be installed into `~/.local/bin`, you may need to put that direcotry in your $PATH by adding this to your `.profile`:
+
+    if [ -d "$HOME/.local/bin" ] ; then
+        PATH="$HOME/.local/bin:$PATH"
+    fi
 
 ## Usage
 
@@ -59,19 +71,27 @@ Queries to Tenor's GIF API can also be performed:
     gif-for-cli 5437241
     gif-for-cli https://tenor.com/view/the-matrix-gif-5437241
 
+### Change max width/height
+
+The default number of rows and columns may be too large and result in line wrapping. If you know your terminal size, you can control the output size with the following options:
+
+    gif-for-cli --rows 10 --cols 100 5437241
+
+Set to current terminal size:
+
+    gif-for-cli --rows `tput lines` --cols `tput cols` 5437241
+
+Note: Generated ASCII art is cached based on the number of rows and columns, so running that command after resizing your terminal window will result in the ASCII Art being regenerated.
+
+### Loop forever
+
+    gif-for-cli -l 0 5437241
+
 ### Help
 
 See more generation/display options:
 
     gif-for-cli --help
-
-### Troubleshooting
-
-If you get an error like the following:
-
-    -bash: gif-for-cli: command not found
-
-Chances are gif-for-cli was installed in a location not on your `PATH`. This can happen if running `gif-for-cli` in your `.bashrc`, but it was installed into `~/.local/bin`, and that directory hasn't been added to your `PATH`.
 
 ## About Tenor
 
@@ -87,6 +107,14 @@ With coverage:
 
     coverage run --source gif_for_cli -m unittest discover
     coverage report -m
+
+## Troubleshooting
+
+If you get an error like the following:
+
+    -bash: gif-for-cli: command not found
+
+Chances are gif-for-cli was installed in a location not on your `PATH`. This can happen if running `gif-for-cli` in your `.bashrc`, but it was installed into `~/.local/bin`, and that directory hasn't been added to your `PATH`. You can either specify the full path to gif-for-cli to run it, or add its location to your $PATH.
 
 ## Disclaimer
 
