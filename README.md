@@ -1,8 +1,11 @@
 # gif-for-cli
 
-Takes in a GIF, short video, or a query to the Tenor GIF API and converts it to animated ASCII art. Animation and color support are performed using ANSI escape sequences.
+Takes in a GIF, short video, or a query to the [Tenor][tenor-home] GIF API and converts it to animated ASCII art. Animation and color support are performed using ANSI escape sequences.
 
-Recommened use case: put one of the example commands in your `.bashrc` or `.profile` to get an animated ASCII art image as your MOTD!
+Example use cases:
+
+* run `gif-for-cli` in your `.bashrc` or `.profile` to get an animated ASCII art image as your MOTD!
+* git hooks [;)](git-hooks/pre-push)
 
 This script will automatically detect how many colors the current terminal uses and display the correct version:
 
@@ -22,11 +25,16 @@ This script will automatically detect how many colors the current terminal uses 
 
 ## Installation
 
-Requires Python 3 (with setuptools), zlib, libjpeg, and ffmpeg, other dependencies are installed by `setup.py`.
+Requires Python 3 (with setuptools and pip), zlib, libjpeg, and ffmpeg, other dependencies are installed by `setup.py`.
 
-Install dependencies:
+Install dependencies (Debian based distros):
 
     sudo apt-get install ffmpeg zlib* libjpeg*
+
+Your Python environment may need these installation tools:
+
+    sudo apt-get install python3-setuptools
+    sudo easy_install3 pip
     # this should enable a pre-built Pillow wheel to be installed, otherwise you may need to install zlib and libjpeg development libraries so Pillow can compile from source.
     pip3 install --user wheel
 
@@ -56,7 +64,7 @@ Executing as a Python module is also supported:
 
     python3 -m gif_for_cli path/to/some.gif
 
-### Query Tenor's API
+### Query [Tenor's GIF API][tenor-gif-api]
 
 Queries to Tenor's GIF API can also be performed:
 
@@ -81,11 +89,13 @@ Set to current terminal size:
 
     gif-for-cli --rows `tput lines` --cols `tput cols` 5437241
 
-Note: Generated ASCII art is cached based on the number of rows and columns, so running that command after resizing your terminal window will result in the ASCII Art being regenerated.
+Note: Generated ASCII art is cached based on the number of rows and columns, so running that command after resizing your terminal window will likely result in the ASCII Art being regenerated.
 
 ### Loop forever
 
     gif-for-cli -l 0 5437241
+
+Use <kbd>CTRL</kbd> + <kbd>c</kbd> to exit.
 
 ### Help
 
@@ -97,7 +107,7 @@ See more generation/display options:
 
 Tenor is the API that delivers the most relevant GIFs for any application, anywhere in the world. We are the preferred choice for communication products of all types and the fastest growing GIF service on the market.
 
-Check out our API Docs: [https://tenor.com/gifapi]
+Check out our API Docs: [https://tenor.com/gifapi][tenor-gif-api]
 
 ## Testing
 
@@ -107,6 +117,12 @@ With coverage:
 
     coverage run --source gif_for_cli -m unittest discover
     coverage report -m
+
+## Development
+
+To reuse the shared Git hooks in this repo, run:
+
+    git config core.hooksPath git-hooks
 
 ## Troubleshooting
 
@@ -119,3 +135,6 @@ Chances are gif-for-cli was installed in a location not on your `PATH`. This can
 ## Disclaimer
 
 This is not an officially supported Google product.
+
+[tenor-home]: https://tenor.com/
+[tenor-gif-api]: https://tenor.com/gifapi
