@@ -62,6 +62,13 @@ def get_parser(environ):
     [none provided] - gets the first GIF from the Tenor trending endpoint.
     """
     )
+    parser.add_argument(
+        '--api-key',
+        dest='api_key',
+        type=str,
+        default='TQ7VXFHXBJQ5',
+        help='Tenor API key to perform queries with.'
+    )
     # display related options.
     parser.add_argument(
         '--display-mode',

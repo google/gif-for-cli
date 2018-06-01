@@ -50,7 +50,7 @@ def get_avg_for_em(px, x, y, cell_height, cell_width):
     return [round(n) for n in map(avg, zip(*pixels))]
 
 
-def process_input_source(input_source):
+def process_input_source(input_source, api_key):
     if input_source.strip().startswith('https://tenor.com/view/'):
         gif_id = input_source.rsplit('-', 1)[-1]
         if gif_id.isdigit():
@@ -61,8 +61,6 @@ def process_input_source(input_source):
     is_url = input_source.startswith('http://') or input_source.startswith('https://')
 
     if not os.path.exists(input_source) and not is_url:
-        apikey = 'TQ7VXFHXBJQ5'
-
         # get from Tenor GIF API
         if input_source.isdigit():
             endpoint = 'gifs'
@@ -74,7 +72,7 @@ def process_input_source(input_source):
             endpoint = 'search'
             query = 'limit=1&q={}'.format(urllib.parse.quote_plus(input_source))
 
-        resp = requests.get('https://api.tenor.com/v1/{}?key={}&{}'.format(endpoint, apikey, query))
+        resp = requests.get('https://api.tenor.com/v1/{}?key={}&{}'.format(endpoint, api_key, query))
 
         try:
             resp_json = resp.json()

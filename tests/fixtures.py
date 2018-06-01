@@ -16,21 +16,10 @@ limitations under the License.
 import json
 
 
-gif_response = json.loads("""
-{
+gif_response = json.loads("""{
   "results": [
     {
-      "bg_color": "#3f3f3f", 
-      "content_rating": "G", 
-      "hasaudio": false, 
-      "tags": [
-        "OfficeSpace", 
-        "dancing", 
-        "BreakDance", 
-        "celebrate", 
-        "gangsta", 
-        "WooHoo"
-      ], 
+      "created": 1520636640.424062, 
       "url": "https://tenor.com/VDng.gif", 
       "media": [
         {
@@ -91,7 +80,7 @@ gif_response = json.loads("""
             "size": 237925
           }, 
           "gif": {
-            "url": "https://media1.tenor.com/images/ad84b1269b576e0d87b74a8adc09295c/tenor.gif?itemid=11313704", 
+            "url": "https://media.tenor.com/images/ad84b1269b576e0d87b74a8adc09295c/tenor.gif", 
             "dims": [
               416, 
               224
@@ -109,6 +98,24 @@ gif_response = json.loads("""
             "preview": "https://media.tenor.com/images/1b7446613a50219636b4299992e6daf0/tenor.png", 
             "size": 396737
           }, 
+          "nanogif": {
+            "url": "https://media.tenor.com/images/39cc928d325dd3ee6ab9089121ed97a0/tenor.gif", 
+            "dims": [
+              167, 
+              90
+            ], 
+            "preview": "https://media.tenor.com/images/216fb17dd2fb92d860eaecac97626741/tenor.gif", 
+            "size": 281852
+          }, 
+          "mediumgif": {
+            "url": "https://media.tenor.com/images/989f5142a249e25c776e3d47682a8bd9/tenor.gif", 
+            "dims": [
+              416, 
+              224
+            ], 
+            "preview": "https://media.tenor.com/images/2a14201ce0f5aeaa27b0a1803255e9fd/tenor.gif", 
+            "size": 1981318
+          }, 
           "loopedmp4": {
             "url": "https://media.tenor.com/videos/afb6f589849a2dc12a7af58905f222b1/mp4", 
             "dims": [
@@ -118,66 +125,20 @@ gif_response = json.loads("""
             "duration": 26.801302, 
             "preview": "https://media.tenor.com/images/1b7446613a50219636b4299992e6daf0/tenor.png", 
             "size": 1188713
-          }, 
-          "mediumgif": {
-            "url": "https://media1.tenor.com/images/989f5142a249e25c776e3d47682a8bd9/tenor.gif?itemid=11313704", 
-            "dims": [
-              416, 
-              224
-            ], 
-            "preview": "https://media.tenor.com/images/2a14201ce0f5aeaa27b0a1803255e9fd/tenor.gif", 
-            "size": 1981318
-          }, 
-          "nanogif": {
-            "url": "https://media.tenor.com/images/39cc928d325dd3ee6ab9089121ed97a0/tenor.gif", 
-            "dims": [
-              167, 
-              90
-            ], 
-            "preview": "https://media.tenor.com/images/216fb17dd2fb92d860eaecac97626741/tenor.gif", 
-            "size": 281852
           }
         }
       ], 
-      "sticker": false, 
-      "created": 1520636640.424062, 
-      "shares": 2478, 
+      "tags": [], 
+      "shares": 1, 
       "itemurl": "https://tenor.com/view/office-space-dancing-break-dance-celebrate-gangsta-gif-11313704", 
       "composite": null, 
-      "user": {
-        "username": "seanthesavage", 
-        "url": "https://tenor.com/users/seanthesavage", 
-        "tagline": null, 
-        "userid": 635095, 
-        "avatars": {
-          "32": "https://media.tenor.com/defaultavatars/keyboarduser/avatar32", 
-          "128": "https://media.tenor.com/defaultavatars/keyboarduser/avatar128", 
-          "75": "https://media.tenor.com/defaultavatars/keyboarduser/avatar75", 
-          "256": "https://media.tenor.com/defaultavatars/keyboarduser/avatar256"
-        }, 
-        "usertype": "user"
-      }, 
-      "h1_title": "Office Space Dancing GIF", 
-      "primary_term": "OfficeSpace", 
-      "searchable_terms": [
-        "OfficeSpace", 
-        "dancing", 
-        "BreakDance", 
-        "celebrate", 
-        "gangsta", 
-        "WooHoo"
-      ], 
+      "hasaudio": false, 
       "title": "", 
-      "embed": "<div class=\\"tenor-gif-embed\\" data-postid=\\"11313704\\" data-share-method=\\"host\\" data-width=\\"100%\\" data-aspect-ratio=\\"1.8571428571428572\\"><a href=\\"https://tenor.com/view/office-space-dancing-break-dance-celebrate-gangsta-gif-11313704\\">Office Space Dancing GIF</a> from <a href=\\"https://tenor.com/search/officespace-gifs\\">Officespace GIFs</a></div><script type=\\"text/javascript\\" async src=\\"https://tenor.com/embed.js\\"></script>", 
-      "long_title": "Office Space Dancing GIF - OfficeSpace Dancing BreakDance GIFs", 
-      "aspect_ratio": 1.8571, 
-      "id": "11313704", 
-      "source_id": "XlfyQBZ1KJ6AVUbiYode6jB6W71QAUASNBYXx_dSw4y5pJ0gVuFtHBDPuutX4jgBkpKDrz6dCUxMsLxDhq_Co-UkBSOBMg"
+      "id": "11313704"
     }
   ], 
   "next": "0"
-}
-""")
+}""")
 
 
 empty_gif_response = json.loads("""{

@@ -35,7 +35,7 @@ def execute(environ, argv, stdout):
 
     input_source = args.input_source
 
-    input_source_file = process_input_source(input_source)
+    input_source_file = process_input_source(input_source, args.api_key)
 
 
     home_dir = expanduser('~')

@@ -27,7 +27,7 @@ from gif_for_cli.__main__ import execute
 @patch('gif_for_cli.__main__.display')
 class TestExecute(unittest.TestCase):
     def test_new(self, mock_display, mock_generate, mock_makedirs, mock_process_input_source):
-        mock_process_input_source.side_effect = lambda input_source: input_source
+        mock_process_input_source.side_effect = lambda input_source, api_key: input_source
 
         environ = {}
         argv = []
@@ -88,7 +88,7 @@ class TestExecute(unittest.TestCase):
         self.assertEqual(mock_display.call_count, 1)
 
     def test_cached(self, mock_display, mock_generate, mock_makedirs, mock_process_input_source):
-        mock_process_input_source.side_effect = lambda input_source: input_source
+        mock_process_input_source.side_effect = lambda input_source, api_key: input_source
 
         environ = {}
         argv = []

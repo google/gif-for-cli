@@ -33,6 +33,9 @@ from gif_for_cli.generate.utils import (
 from ..fixtures import empty_gif_response, gif_response
 
 
+api_key = 'TQ7VXFHXBJQ5'
+
+
 class TestAvg(unittest.TestCase):
     def test_empty_input_raises_error(self):
         with self.assertRaises(ZeroDivisionError):
@@ -203,7 +206,7 @@ class TestProcessInputSource(unittest.TestCase):
 
         input_source = 'foo.gif'
 
-        processed_input_source = process_input_source(input_source)
+        processed_input_source = process_input_source(input_source, api_key)
 
         self.assertEqual(processed_input_source, input_source)
         self.assertEqual(mock_exists.call_count, 1)
@@ -214,7 +217,7 @@ class TestProcessInputSource(unittest.TestCase):
 
         input_source = 'http://example.com/foo.gif'
 
-        processed_input_source = process_input_source(input_source)
+        processed_input_source = process_input_source(input_source, api_key)
 
         self.assertEqual(processed_input_source, input_source)
         self.assertEqual(mock_exists.call_count, 1)
@@ -225,7 +228,7 @@ class TestProcessInputSource(unittest.TestCase):
 
         input_source = 'https://example.com/foo.gif'
 
-        processed_input_source = process_input_source(input_source)
+        processed_input_source = process_input_source(input_source, api_key)
 
         self.assertEqual(processed_input_source, input_source)
         self.assertEqual(mock_exists.call_count, 1)
@@ -238,7 +241,7 @@ class TestProcessInputSource(unittest.TestCase):
 
         input_source = ''
 
-        processed_input_source = process_input_source(input_source)
+        processed_input_source = process_input_source(input_source, api_key)
 
         mpr_url = gif_response['results'][0]['media'][0]['mp4']['url']
         self.assertEqual(processed_input_source, mpr_url)
@@ -252,7 +255,7 @@ class TestProcessInputSource(unittest.TestCase):
 
         input_source = 'happy birthday'
 
-        processed_input_source = process_input_source(input_source)
+        processed_input_source = process_input_source(input_source, api_key)
 
         mpr_url = gif_response['results'][0]['media'][0]['mp4']['url']
         self.assertEqual(processed_input_source, mpr_url)
@@ -267,7 +270,7 @@ class TestProcessInputSource(unittest.TestCase):
         input_source = 'happy birthday'
 
         with self.assertRaises(Exception) as cm:
-            process_input_source(input_source)
+            process_input_source(input_source, api_key)
 
         self.assertEqual(cm.exception.args[0], 'Could not find GIF.')
         self.assertEqual(mock_exists.call_count, 1)
@@ -280,7 +283,7 @@ class TestProcessInputSource(unittest.TestCase):
 
         input_source = '11313704'
 
-        processed_input_source = process_input_source(input_source)
+        processed_input_source = process_input_source(input_source, api_key)
 
         mpr_url = gif_response['results'][0]['media'][0]['mp4']['url']
         self.assertEqual(processed_input_source, mpr_url)
@@ -295,7 +298,7 @@ class TestProcessInputSource(unittest.TestCase):
         input_source = '11313704'
 
         with self.assertRaises(Exception) as cm:
-            process_input_source(input_source)
+            process_input_source(input_source, api_key)
 
         self.assertEqual(cm.exception.args[0], 'An error occurred: some error')
         self.assertEqual(mock_exists.call_count, 1)
@@ -309,7 +312,7 @@ class TestProcessInputSource(unittest.TestCase):
         input_source = '11313704'
 
         with self.assertRaises(Exception) as cm:
-            process_input_source(input_source)
+            process_input_source(input_source, api_key)
 
         self.assertEqual(cm.exception.args[0], 'Could not find GIF.')
         self.assertEqual(mock_exists.call_count, 1)
@@ -323,7 +326,7 @@ class TestProcessInputSource(unittest.TestCase):
         input_source = '11313704'
 
         with self.assertRaises(Exception) as cm:
-            process_input_source(input_source)
+            process_input_source(input_source, api_key)
 
         self.assertEqual(cm.exception.args[0], 'some error')
         self.assertEqual(mock_exists.call_count, 1)
@@ -337,7 +340,7 @@ class TestProcessInputSource(unittest.TestCase):
         input_source = '11313704'
 
         with self.assertRaises(Exception) as cm:
-            process_input_source(input_source)
+            process_input_source(input_source, api_key)
 
         self.assertEqual(cm.exception.args[0], 'A server error occurred.')
         self.assertEqual(mock_exists.call_count, 1)
@@ -350,7 +353,7 @@ class TestProcessInputSource(unittest.TestCase):
 
         input_source = 'https://tenor.com/view/the-matrix-gif-5437241'
 
-        processed_input_source = process_input_source(input_source)
+        processed_input_source = process_input_source(input_source, api_key)
 
         mpr_url = gif_response['results'][0]['media'][0]['mp4']['url']
         self.assertEqual(processed_input_source, mpr_url)
@@ -365,7 +368,7 @@ class TestProcessInputSource(unittest.TestCase):
         input_source = 'https://tenor.com/view/the-matrix-gif'
 
         with self.assertRaises(Exception) as cm:
-            process_input_source(input_source)
+            process_input_source(input_source, api_key)
 
         self.assertEqual(cm.exception.args[0], 'Bad GIF URL.')
         self.assertEqual(mock_exists.call_count, 0)
