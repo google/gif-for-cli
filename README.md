@@ -15,25 +15,27 @@ This script will automatically detect how many colors the current terminal uses 
 
 [original-gif]: https://media1.tenor.com/images/18b80cf2409fc038638c564c6f07d3b5/tenor.gif?itemid=5437241
 [no-color]: https://media1.tenor.com/images/7785f624c29e1a212ace715942ef5b82/tenor.gif?itemid=11713984
-[256-colors]: https://media1.tenor.com/images/04d6327fb30fc6b1eb0a5cf6824b4ae7/tenor.gif?itemid=11713983
+[256-colors]: https://media1.tenor.com/images/5de7922b0224e4f371e16aa0b11cb904/tenor.gif?itemid=11926871
 [truecolor]: https://media1.tenor.com/images/336f10e1717e60e33d9e1911d5beda77/tenor.gif?itemid=11713985
 
 [original-gif-url]: https://tenor.com/view/the-matrix-gif-5437241
 [no-color-url]: https://tenor.com/view/the-matrix-ascii-gif-11713984
-[256-colors-url]: https://tenor.com/view/the-matrix-ascii-gif-11713983
+[256-colors-url]: https://tenor.com/view/the-matrix-ascii-gif-11926871
 [truecolor-url]: https://tenor.com/view/the-matrix-ascii-gif-11713985
 
 ## Installation
 
 Requires Python 3 (with setuptools and pip), zlib, libjpeg, and ffmpeg, other dependencies are installed by `setup.py`.
 
-Install dependencies (Debian based distros):
+Install dependencies:
 
-    sudo apt-get install ffmpeg zlib* libjpeg*
+    # Debian based distros
+    sudo apt-get install ffmpeg zlib* libjpeg* python3-setuptools
+    # Mac
+    brew install ffmpeg zlib libjpeg python
 
 Your Python environment may need these installation tools:
 
-    sudo apt-get install python3-setuptools
     sudo easy_install3 pip
     # this should enable a pre-built Pillow wheel to be installed, otherwise you may need to install zlib and libjpeg development libraries so Pillow can compile from source.
     pip3 install --user wheel
