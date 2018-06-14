@@ -1,5 +1,7 @@
 # gif-for-cli
 
+<img src="docs/gif-for-cli-logo.png" alt="gif-for-cli logo" width="256" height="198"/>
+
 Takes in a GIF, short video, or a query to the [Tenor][tenor-home] GIF API and converts it to animated ASCII art. Animation and color support are performed using ANSI escape sequences.
 
 Example use cases:
@@ -13,15 +15,15 @@ This script will automatically detect how many colors the current terminal uses 
 | ------------- |:-------------------:| --------------------:| -------------------:|
 | [![Original GIF][original-gif]][original-gif-url] | [![No Color Animated ASCII Art][no-color]][no-color-url] | [![256 Colors Animated ASCII Art][256-colors]][256-colors-url] | [![Truecolor Animated ASCII Art][truecolor]][truecolor-url] |
 
-[original-gif]: https://media1.tenor.com/images/18b80cf2409fc038638c564c6f07d3b5/tenor.gif?itemid=5437241
-[no-color]: https://media1.tenor.com/images/7785f624c29e1a212ace715942ef5b82/tenor.gif?itemid=11713984
-[256-colors]: https://media1.tenor.com/images/5de7922b0224e4f371e16aa0b11cb904/tenor.gif?itemid=11926871
-[truecolor]: https://media1.tenor.com/images/336f10e1717e60e33d9e1911d5beda77/tenor.gif?itemid=11713985
+[original-gif]: https://media1.tenor.com/images/eac7f7d8534f0843ebd707101b8ef7fd/tenor.gif?itemid=11699608
+[no-color]: https://media1.tenor.com/images/95e9551fb69b5c2f67cdc48f04c75bc7/tenor.gif?itemid=11997403
+[256-colors]: https://media1.tenor.com/images/d354ee0840d9376e2baacdbee59b6c06/tenor.gif?itemid=11997429
+[truecolor]: https://media1.tenor.com/images/30196efdd05d816d4aab6179e41318ac/tenor.gif?itemid=11997399
 
-[original-gif-url]: https://tenor.com/view/the-matrix-gif-5437241
-[no-color-url]: https://tenor.com/view/the-matrix-ascii-gif-11713984
-[256-colors-url]: https://tenor.com/view/the-matrix-ascii-gif-11926871
-[truecolor-url]: https://tenor.com/view/the-matrix-ascii-gif-11713985
+[original-gif-url]: https://tenor.com/view/rob-delaney-peter-deadpool-deadpool2-untitled-deadpool-sequel-gif-11699608
+[no-color-url]: https://tenor.com/view/peter-deadpool2-ascii-giffor-cli-gif-11997403
+[256-colors-url]: https://tenor.com/view/peter-deadpool2-ascii-giffor-cli-ready-gif-11997429
+[truecolor-url]: https://tenor.com/view/peter-deadpool2-ascii-giffor-cli-ready-gif-11997399
 
 ## Installation
 
@@ -76,26 +78,34 @@ Queries to Tenor's GIF API can also be performed:
     # get top GIF for "Happy Birthday"
     gif-for-cli "Happy Birthday"
 
-    # get GIF with ID #5437241
+    # get GIF with ID #11699608
     # browse https://tenor.com/ for more!
-    gif-for-cli 5437241
-    gif-for-cli https://tenor.com/view/the-matrix-gif-5437241
+    gif-for-cli 11699608
+    gif-for-cli https://tenor.com/view/rob-delaney-peter-deadpool-deadpool2-untitled-deadpool-sequel-gif-11699608
+
+### Override display mode
+
+    gif-for-cli --display-mode=nocolor 11699608
+    gif-for-cli --display-mode=256 11699608
+    gif-for-cli --display-mode=256fgbg 11699608
+    gif-for-cli --display-mode=truecolor 11699608
+
 
 ### Change max width/height
 
 The default number of rows and columns may be too large and result in line wrapping. If you know your terminal size, you can control the output size with the following options:
 
-    gif-for-cli --rows 10 --cols 100 5437241
+    gif-for-cli --rows 10 --cols 100 11699608
 
 Set to current terminal size:
 
-    gif-for-cli --rows `tput lines` --cols `tput cols` 5437241
+    gif-for-cli --rows `tput lines` --cols `tput cols` 11699608
 
 Note: Generated ASCII art is cached based on the number of rows and columns, so running that command after resizing your terminal window will likely result in the ASCII Art being regenerated.
 
 ### Loop forever
 
-    gif-for-cli -l 0 5437241
+    gif-for-cli -l 0 11699608
 
 Use <kbd>CTRL</kbd> + <kbd>c</kbd> to exit.
 
