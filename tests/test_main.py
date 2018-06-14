@@ -64,14 +64,15 @@ class TestExecute(unittest.TestCase):
             call[0][0]
             for call in mock_exists.call_args_list[-6:]
         ])
+
         self.assertTrue(paths[0].endswith(
             '/d41d8cd98f00b204e9800998ecf8427e-160cols-40rows-cw3px-ch6px'
         ))
         self.assertTrue(paths[1].endswith(
-            '/d41d8cd98f00b204e9800998ecf8427e-160cols-40rows-cw3px-ch6px'
+            '/d41d8cd98f00b204e9800998ecf8427e-160cols-40rows-cw3px-ch6px/256'
         ))
         self.assertTrue(paths[2].endswith(
-            '/d41d8cd98f00b204e9800998ecf8427e-160cols-40rows-cw3px-ch6px/256'
+            '/d41d8cd98f00b204e9800998ecf8427e-160cols-40rows-cw3px-ch6px/256fgbg'
         ))
         self.assertTrue(paths[3].endswith(
             '/d41d8cd98f00b204e9800998ecf8427e-160cols-40rows-cw3px-ch6px/jpg'
@@ -82,7 +83,7 @@ class TestExecute(unittest.TestCase):
         self.assertTrue(paths[5].endswith(
             '/d41d8cd98f00b204e9800998ecf8427e-160cols-40rows-cw3px-ch6px/truecolor'
         ))
-        self.assertEqual(mock_makedirs.call_count, 5)
+        self.assertEqual(mock_makedirs.call_count, 6)
         self.assertEqual(mock_generate.call_count, 1)
         self.assertEqual(mocked_open.call_count, 1)
         self.assertEqual(mock_display.call_count, 1)

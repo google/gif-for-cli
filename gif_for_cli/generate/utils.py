@@ -15,13 +15,16 @@ limitations under the License.
 """
 import itertools
 from json.decoder import JSONDecodeError
+import math
 import os
 import urllib.parse
 
 import requests
 from x256 import x256
 
-from ..constants import STORED_CELL_CHAR
+from ..constants import X256FGBG_CHARS, STORED_CELL_CHAR
+
+from .x256fgbg_utils import top_2_colors
 
 
 def avg(it):
@@ -35,6 +38,26 @@ def get_gray(*rgb):
 
 def get_256_cell(r, g, b):
     return u'\u001b[38;5;{}m{}'.format(x256.from_rgb(r, g, b), STORED_CELL_CHAR)
+
+
+def get_256fgbg_cell(r, g, b):
+    best, second = top_2_colors(r, g, b)
+    # if the best color is an exact match, use a blank space for the FG color.
+    char = ' '
+    if best['distance'] != 0:
+        # The bigger the distance of the best color, the more we want the FG
+        # color to show up.
+        # Cases:
+        # best and second are equal - 50BG/50FG - largest X256FGBG_CHARS
+        # best is close, second is far away - 90BG/10FG - smaller X256FGBG_CHARS
+        ratio = best['distance'] / second['distance']
+        char = X256FGBG_CHARS[math.floor(ratio * (len(X256FGBG_CHARS) - 1))]
+
+    return u'\u001b[48;5;{}m\u001b[38;5;{}m{}'.format(
+        best['index'],
+        second['index'],
+        char,
+    )
 
 
 def get_truecolor_cell(r, g, b):

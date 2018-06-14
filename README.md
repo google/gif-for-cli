@@ -11,18 +11,20 @@ Example use cases:
 
 This script will automatically detect how many colors the current terminal uses and display the correct version:
 
-| Original GIF  | No Colors Supported | 256 Colors Supported | Truecolor Supported |
-| ------------- |:-------------------:| --------------------:| -------------------:|
-| [![Original GIF][original-gif]][original-gif-url] | [![No Color Animated ASCII Art][no-color]][no-color-url] | [![256 Colors Animated ASCII Art][256-colors]][256-colors-url] | [![Truecolor Animated ASCII Art][truecolor]][truecolor-url] |
+| Original GIF  | No Colors Supported | 256 Colors Supported | 256 Colors Supported (with foreground and background colors) | Truecolor Supported |
+| ------------- |:-------------------:| --------------------:| ------------------------------------------------------------:| -------------------:|
+| [![Original GIF][original-gif]][original-gif-url] | [![No Color Animated ASCII Art][no-color]][no-color-url] | [![256 Colors Animated ASCII Art][256-colors]][256-colors-url] | [![256 FG/BG Colors Animated ASCII Art][256fgbg-colors]][256fgbg-colors-url] | [![Truecolor Animated ASCII Art][truecolor]][truecolor-url] |
 
 [original-gif]: https://media1.tenor.com/images/eac7f7d8534f0843ebd707101b8ef7fd/tenor.gif?itemid=11699608
 [no-color]: https://media1.tenor.com/images/95e9551fb69b5c2f67cdc48f04c75bc7/tenor.gif?itemid=11997403
 [256-colors]: https://media1.tenor.com/images/d354ee0840d9376e2baacdbee59b6c06/tenor.gif?itemid=11997429
+[256fgbg-colors]: https://media1.tenor.com/images/f8d461c1a6e06f0b3dd6c7aff474117b/tenor.gif?itemid=12000378
 [truecolor]: https://media1.tenor.com/images/30196efdd05d816d4aab6179e41318ac/tenor.gif?itemid=11997399
 
 [original-gif-url]: https://tenor.com/view/rob-delaney-peter-deadpool-deadpool2-untitled-deadpool-sequel-gif-11699608
 [no-color-url]: https://tenor.com/view/peter-deadpool2-ascii-giffor-cli-gif-11997403
 [256-colors-url]: https://tenor.com/view/peter-deadpool2-ascii-giffor-cli-ready-gif-11997429
+[256fgbg-colors-url]: https://tenor.com/view/peter-deadpool2-ascii-giffor-cli-ready-gif-12000378
 [truecolor-url]: https://tenor.com/view/peter-deadpool2-ascii-giffor-cli-ready-gif-11997399
 
 ## Installation
@@ -143,6 +145,12 @@ If you get an error like the following:
     -bash: gif-for-cli: command not found
 
 Chances are gif-for-cli was installed in a location not on your `PATH`. This can happen if running `gif-for-cli` in your `.bashrc`, but it was installed into `~/.local/bin`, and that directory hasn't been added to your `PATH`. You can either specify the full path to gif-for-cli to run it, or add its location to your $PATH.
+
+## Some of our Favorites
+
+    gif-for-cli 10988977
+    gif-for-cli 5863633
+    gif-for-cli 5437241
 
 ## Disclaimer
 

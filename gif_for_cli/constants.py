@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 NOCOLOR_CHARS = ' .,\'-:;!"^/+?*&8#$@%'
+X256FGBG_CHARS = '.,-:;!"^/+?*&#'
 STORED_CELL_CHAR = '#'
 ANSI_RESET = u'\u001b[0m'
 ANSI_CURSOR_UP = u'\u001b[A'

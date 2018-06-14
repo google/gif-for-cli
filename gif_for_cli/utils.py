@@ -24,7 +24,7 @@ def _get_default_display_mode(environ):
     if 'truecolor' in TERM or 'truecolor' in COLORTERM:
         return 'truecolor'
     elif '256' in TERM or '256' in COLORTERM:
-        return '256'
+        return '256fgbg'
     return 'nocolor'
 
 
@@ -75,7 +75,7 @@ def get_parser(environ):
         dest='display_mode',
         type=str,
         default=default_display_mode,
-        choices=['nocolor', '256', 'truecolor'],
+        choices=['nocolor', '256', '256fgbg', 'truecolor'],
         help='Override the auto-detected color support.'
     )
     parser.add_argument(
@@ -149,6 +149,7 @@ def get_output_dirnames(home_dir, version, input_source_hash, cols, rows, cell_w
     output_dirnames['jpg'] = '{}/jpg'.format(output_dirnames['.'])
     output_dirnames['nocolor'] = '{}/nocolor'.format(output_dirnames['.'])
     output_dirnames['256'] = '{}/256'.format(output_dirnames['.'])
+    output_dirnames['256fgbg'] = '{}/256fgbg'.format(output_dirnames['.'])
     output_dirnames['truecolor'] = '{}/truecolor'.format(output_dirnames['.'])
     return output_dirnames
 

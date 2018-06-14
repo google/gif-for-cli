@@ -121,6 +121,7 @@ class TestConvertFrame(unittest.TestCase):
                 'jpg': 'foo/jpg',
                 'nocolor': 'foo/nocolor',
                 '256': 'foo/256',
+                '256fgbg': 'foo/256fgbg',
                 'truecolor': 'foo/truecolor',
             },
         }
@@ -129,7 +130,7 @@ class TestConvertFrame(unittest.TestCase):
             convert_frame(frame_name, **options)
 
         self.assertEqual(mock_Image.open.call_count, 1)
-        self.assertEqual(mocked_open.call_count, 3)
+        self.assertEqual(mocked_open.call_count, 4)
 
 
 @patch('gif_for_cli.generate.get_sorted_filenames')

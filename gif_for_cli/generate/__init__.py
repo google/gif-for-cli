@@ -23,13 +23,14 @@ import subprocess
 
 from PIL import Image
 
-from ..constants import NOCOLOR_CHARS
+from ..constants import ANSI_RESET, NOCOLOR_CHARS
 from ..utils import get_sorted_filenames
 
 from .utils import (
     avg,
     get_gray,
     get_256_cell,
+    get_256fgbg_cell,
     get_truecolor_cell,
     get_avg_for_em,
     _log_frame_progress,
@@ -93,19 +94,24 @@ def convert_frame(frame_name, **options):
 
     chars_nocolor = []
     lines_256 = []
+    lines_256fgbg = []
     lines_truecolor = []
 
     for y in range(0, height, cell_height):
         line_256 = []
+        line_256fgbg = []
         line_truecolor = []
         for x in range(0, width, cell_width):
             rgb = get_avg_for_em(px, x, y, cell_height, cell_width)
 
             chars_nocolor.append(get_gray(*rgb))
             line_256.append(get_256_cell(*rgb))
+            line_256fgbg.append(get_256fgbg_cell(*rgb))
             line_truecolor.append(get_truecolor_cell(*rgb))
 
         lines_256.append(''.join(line_256))
+        # This output mode can leak the BG color to extra columns.
+        lines_256fgbg.append(''.join(line_256fgbg) + ANSI_RESET)
         lines_truecolor.append(''.join(line_truecolor))
 
     # We need to divide up the gray colors into roughly equal buckets,
@@ -142,6 +148,9 @@ def convert_frame(frame_name, **options):
 
     with open('{}/{}.txt'.format(output_dirnames['256'], frame_name), 'w') as f:
         f.write('\n'.join(lines_256))
+
+    with open('{}/{}.txt'.format(output_dirnames['256fgbg'], frame_name), 'w') as f:
+        f.write('\n'.join(lines_256fgbg))
     
     with open('{}/{}.txt'.format(output_dirnames['truecolor'], frame_name), 'w') as f:
         f.write('\n'.join(lines_truecolor))

@@ -33,7 +33,7 @@ class TestGetDefaultDisplayMode(unittest.TestCase):
     def test_256(self):
         self.assertEqual(_get_default_display_mode({
             'TERM': 'xterm-256color',
-        }), '256')
+        }), '256fgbg')
 
     def test_truecolor(self):
         self.assertEqual(_get_default_display_mode({
