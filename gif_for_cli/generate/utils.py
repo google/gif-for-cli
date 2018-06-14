@@ -27,19 +27,38 @@ from ..constants import X256FGBG_CHARS, STORED_CELL_CHAR
 from .x256fgbg_utils import top_2_colors
 
 
+def memoize(f):
+    """
+    Caveat: Presumes each arg is hashable, and therefore a valid dict key.
+    """
+    d = {}
+    def wrapper(*args):
+        if args in d:
+            return d[args]
+
+        res = f(*args)
+        d[args] = res
+        return res
+
+    return wrapper
+
+
 def avg(it):
     l = len(it)
     return sum(it) / float(l)
 
 
+@memoize
 def get_gray(*rgb):
     return avg(rgb)
 
 
+@memoize
 def get_256_cell(r, g, b):
     return u'\u001b[38;5;{}m{}'.format(x256.from_rgb(r, g, b), STORED_CELL_CHAR)
 
 
+@memoize
 def get_256fgbg_cell(r, g, b):
     best, second = top_2_colors(r, g, b)
     # if the best color is an exact match, use a blank space for the FG color.
@@ -60,6 +79,7 @@ def get_256fgbg_cell(r, g, b):
     )
 
 
+@memoize
 def get_truecolor_cell(r, g, b):
     return u'\u001b[38;2;{};{};{}m{}'.format(r, g, b, STORED_CELL_CHAR)
 
