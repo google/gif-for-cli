@@ -1,6 +1,6 @@
-# gif-for-cli
-
-<img src="docs/gif-for-cli-logo.png" alt="gif-for-cli logo" width="256" height="198"/>
+<h1 align="center">
+    <img src="docs/gif-for-cli-logo.png" alt="gif-for-cli logo" width="256" height="198"/>
+</h1>
 
 Takes in a GIF, short video, or a query to the [Tenor][tenor-home] GIF API and converts it to animated ASCII art. Animation and color support are performed using ANSI escape sequences.
 
@@ -52,10 +52,15 @@ Or install from PyPI:
 
     pip3 install --user gif-for-cli
 
-The `gif-for-cli` command will likely be installed into `~/.local/bin`, you may need to put that direcotry in your $PATH by adding this to your `.profile`:
+The `gif-for-cli` command will likely be installed into `~/.local/bin`, you may need to put that directory in your $PATH by adding this to your `.profile`:
 
+    # Linux
     if [ -d "$HOME/.local/bin" ] ; then
         PATH="$HOME/.local/bin:$PATH"
+    fi
+    # Mac, adjust for Python version
+    if [ -d "$HOME/Library/Python/3.6/bin/" ] ; then
+        PATH="$HOME/Library/Python/3.6/bin/:$PATH"
     fi
 
 ## Usage

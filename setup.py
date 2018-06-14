@@ -23,7 +23,8 @@ setup(
     version=gif_for_cli.__version__,
     description="Render an animated GIF to your command line terminal.",
     author='Seán Hayes',
-    author_email='gasphynx@gmail.com',
+    author_email='sth@google.com',
+    url='https://github.com/google/gif-for-cli',
     keywords='gif cli',
     packages=find_packages(),
     entry_points = {
