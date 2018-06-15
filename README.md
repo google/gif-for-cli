@@ -31,7 +31,7 @@ This script will automatically detect how many colors the current terminal uses 
 
 Requires Python 3 (with setuptools and pip), zlib, libjpeg, and ffmpeg, other dependencies are installed by `setup.py`.
 
-Install dependencies:
+### Install dependencies:
 
     # Debian based distros
     sudo apt-get install ffmpeg zlib* libjpeg* python3-setuptools
@@ -41,18 +41,22 @@ Install dependencies:
 Your Python environment may need these installation tools:
 
     sudo easy_install3 pip
-    # this should enable a pre-built Pillow wheel to be installed, otherwise you may need to install zlib and libjpeg development libraries so Pillow can compile from source.
+    # This should enable a pre-built Pillow wheel to be installed, otherwise
+    # you may need to install Python, zlib, and libjpeg development libraries
+    # so Pillow can compile from source.
     pip3 install --user wheel
 
-Download this repo and run:
+### Install gif-for-cli:
 
-    python3 setup.py install --user
-
-Or install from PyPI:
+Install from PyPI:
 
     pip3 install --user gif-for-cli
 
-The `gif-for-cli` command will likely be installed into `~/.local/bin`, you may need to put that directory in your $PATH by adding this to your `.profile`:
+Or download this repo and run:
+
+    python3 setup.py install --user
+
+The `gif-for-cli` command will likely be installed into `~/.local/bin` or similar, you may need to put that directory in your $PATH by adding this to your `.profile`:
 
     # Linux
     if [ -d "$HOME/.local/bin" ] ; then
@@ -97,7 +101,6 @@ Queries to Tenor's GIF API can also be performed:
     gif-for-cli --display-mode=256fgbg 11699608
     gif-for-cli --display-mode=truecolor 11699608
 
-
 ### Change max width/height
 
 The default number of rows and columns may be too large and result in line wrapping. If you know your terminal size, you can control the output size with the following options:
@@ -115,6 +118,12 @@ Note: Generated ASCII art is cached based on the number of rows and columns, so 
     gif-for-cli -l 0 11699608
 
 Use <kbd>CTRL</kbd> + <kbd>c</kbd> to exit.
+
+### Export/Share
+
+Want to share your generated ASCII Art outside a CLI env (e.g. social media)?
+
+    gif-for-cli 11699608 --export=foo.gif
 
 ### Help
 
