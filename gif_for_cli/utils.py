@@ -148,6 +148,12 @@ def get_parser(environ):
         type=_pool_type,
         default=None,
     )
+    parser.add_argument(
+        '--no-display',
+        dest='no_display',
+        action='store_true',
+        help='Skip displaying ASCII in terminal, useful for pre-caching output.',
+    )
 
     # export related options, doens't affect generated output.
     parser.add_argument(
@@ -156,7 +162,8 @@ def get_parser(environ):
         type=str,
         default='',
         help="""Specify a filename (.gif, .mp4, etc.) for ffmpeg to export to.
-    Useful for sharing animated ASCII art outside a CLI environment.""",
+    Useful for sharing animated ASCII art outside a CLI environment. ASCII is
+    not output to the terminal.""",
     )
 
     return parser

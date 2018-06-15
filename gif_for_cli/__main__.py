@@ -91,7 +91,7 @@ def execute(environ, argv, stdout):
             cpu_pool_size=args.cpu_pool_size,
             output_dirnames=output_dirnames,
         )
-    else:
+    elif not args.no_display:
         display(
             display_dirname=output_dirnames[args.display_mode],
             stdout=stdout,
