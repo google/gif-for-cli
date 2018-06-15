@@ -25,8 +25,9 @@ from gif_for_cli.__main__ import execute
 @patch('gif_for_cli.__main__.os.makedirs')
 @patch('gif_for_cli.__main__.generate')
 @patch('gif_for_cli.__main__.display')
+@patch('gif_for_cli.__main__.export')
 class TestExecute(unittest.TestCase):
-    def test_new(self, mock_display, mock_generate, mock_makedirs, mock_process_input_source):
+    def test_new(self, mock_export, mock_display, mock_generate, mock_makedirs, mock_process_input_source):
         mock_process_input_source.side_effect = lambda input_source, api_key: input_source
 
         environ = {}
@@ -87,8 +88,9 @@ class TestExecute(unittest.TestCase):
         self.assertEqual(mock_generate.call_count, 1)
         self.assertEqual(mocked_open.call_count, 1)
         self.assertEqual(mock_display.call_count, 1)
+        self.assertEqual(mock_export.call_count, 0)
 
-    def test_cached(self, mock_display, mock_generate, mock_makedirs, mock_process_input_source):
+    def test_cached(self, mock_export, mock_display, mock_generate, mock_makedirs, mock_process_input_source):
         mock_process_input_source.side_effect = lambda input_source, api_key: input_source
 
         environ = {}
@@ -134,4 +136,51 @@ class TestExecute(unittest.TestCase):
         self.assertEqual(mocked_open.call_count, 1)
         self.assertEqual(mock_display.call_count, 1)
         self.assertEqual(mock_display.call_args[1]['seconds_per_frame'], 0.1)
+        self.assertEqual(mock_export.call_count, 0)
 
+    def test_export(self, mock_export, mock_display, mock_generate, mock_makedirs, mock_process_input_source):
+        mock_process_input_source.side_effect = lambda input_source, api_key: input_source
+
+        environ = {}
+        argv = ['--export=foo.gif']
+        stdout = io.StringIO()
+
+        input_source = ''
+        cols = 160
+        rows = 40
+        cell_width = 3
+        cell_height = 6
+        num_frames = 11
+        seconds = 1.1
+
+        with patch('gif_for_cli.__main__.open') as mocked_open:
+            mocked_open.return_value = io.StringIO(json.dumps({
+                'input_source': input_source,
+                'input_source_file': input_source,
+                'cols': cols,
+                'rows': rows,
+                'cell_width': cell_width,
+                'cell_height': cell_height,
+                'num_frames': num_frames,
+                'seconds': seconds,
+            }))
+
+            with patch('gif_for_cli.__main__.os.path.exists') as mock_exists:
+                mock_exists.return_value = True
+
+                execute(environ, argv, stdout)
+
+        self.assertEqual(mock_process_input_source.call_count, 1)
+        # for some reaosn, this intercepts some locale laoding
+        paths = sorted([
+            call[0][0]
+            for call in mock_exists.call_args_list[-6:]
+        ])
+        self.assertTrue(paths[0].endswith(
+            '/d41d8cd98f00b204e9800998ecf8427e-160cols-40rows-cw3px-ch6px'
+        ))
+        self.assertEqual(mock_makedirs.call_count, 0)
+        self.assertEqual(mock_generate.call_count, 0)
+        self.assertEqual(mocked_open.call_count, 1)
+        self.assertEqual(mock_display.call_count, 0)
+        self.assertEqual(mock_export.call_count, 1)

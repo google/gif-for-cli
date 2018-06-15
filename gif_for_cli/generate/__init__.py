@@ -16,7 +16,6 @@ limitations under the License.
 from collections import OrderedDict
 import json
 import math
-from multiprocessing import Pool
 import os
 import re
 import subprocess
@@ -24,7 +23,7 @@ import subprocess
 from PIL import Image
 
 from ..constants import ANSI_RESET, NOCOLOR_CHARS
-from ..utils import get_sorted_filenames
+from ..utils import get_sorted_filenames, pool_abstraction
 
 from .utils import (
     avg,
@@ -33,7 +32,6 @@ from .utils import (
     get_256fgbg_cell,
     get_truecolor_cell,
     get_avg_for_em,
-    _log_frame_progress,
 )
 
 
@@ -63,11 +61,11 @@ def _run_ffmpeg(input_source_file, output_dirnames, cols, rows, cell_width, cell
         'ffmpeg',
         '-i', input_source_file,
         '-vf', 'scale=w={}:h={}:force_original_aspect_ratio=decrease'.format(scale_width, scale_height),
-        '{}/%04d.jpg'.format(output_dirnames['jpg'])
+        '{}/%04d.jpg'.format(output_dirnames['jpg']),
     ]
     p = subprocess.Popen(cmd,
         stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE
+        stderr=subprocess.PIPE,
     )
     out, err = p.communicate()
     err = err.decode('utf8')
@@ -164,25 +162,7 @@ def _convert_frames(cpu_pool_size, stdout, **options):
         for filename in get_sorted_filenames(output_dirnames['jpg'], 'jpg')
     ]
 
-    total = len(frame_names)
-
-    if cpu_pool_size == 1:
-        results = (
-            convert_frame(frame_name, **options)
-            for frame_name in frame_names
-        )
-        _log_frame_progress(total, results, stdout)
-    else:
-        with Pool(cpu_pool_size) as pool:
-            # we need this consumed instantly in order for the tasks to begin
-            # execution in parallel.
-            results = [
-                pool.apply_async(convert_frame, [frame_name], options)
-                for frame_name in frame_names
-            ]
-            # then use a generator to iterate as they execute.
-            results = (r.get() for r in results)
-            _log_frame_progress(total, results, stdout)
+    pool_abstraction(convert_frame, frame_names, cpu_pool_size, stdout, **options)
 
 
 def generate(**options):

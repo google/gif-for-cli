@@ -32,7 +32,7 @@ class TestDisplayTxtFrames(unittest.TestCase):
         ]
         self.seconds_per_frame = 200
 
-    def test_3_lopps(self):
+    def test_3_loops(self):
         stdout = io.StringIO()
 
         txt_frames = self.txt_frames
@@ -55,7 +55,7 @@ class TestDisplayTxtFrames(unittest.TestCase):
 
         self.assertEqual(output, self.txt_frames * num_loops)
 
-    def test_0_lopps(self):
+    def test_0_loops(self):
         stdout = io.StringIO()
 
         txt_frames = self.txt_frames

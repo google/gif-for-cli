@@ -14,15 +14,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import argparse
+import io
 import unittest
 from unittest.mock import patch, Mock
 
 from gif_for_cli.utils import (
     _get_default_display_mode,
+    _log_frame_progress,
     _pool_type,
     get_parser,
     get_output_dirnames,
-    get_sorted_filenames
+    get_sorted_filenames,
 )
 
 
@@ -40,6 +42,30 @@ class TestGetDefaultDisplayMode(unittest.TestCase):
             'TERM': 'xterm-256color',
             'COLORTERM': 'truecolor',
         }), 'truecolor')
+
+
+class TestLogFrameProgress(unittest.TestCase):
+    def test(self):
+        total = 5
+        results = range(0, total)
+        stdout = io.StringIO()
+
+        _log_frame_progress(total, results, stdout)
+
+        output = stdout.getvalue()
+
+        self.assertEqual(output[-1], '\n')
+
+        output = output[:-1].split(u'\u001b[2K\u001b[1000D')
+        
+        self.assertEqual(output, [
+            'Processed 0/5 frames...',
+            'Processed 1/5 frames...',
+            'Processed 2/5 frames...',
+            'Processed 3/5 frames...',
+            'Processed 4/5 frames...',
+            'Processed 5/5 frames...',
+        ])
 
 
 class TestPoolType(unittest.TestCase):

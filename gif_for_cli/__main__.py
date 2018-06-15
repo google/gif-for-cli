@@ -22,6 +22,7 @@ import sys
 from . import __version__
 from .constants import STORED_CELL_CHAR
 from .display import display
+from .export import export
 from .generate import generate
 from .generate.utils import process_input_source
 from .utils import get_parser, get_output_dirnames
@@ -76,13 +77,28 @@ def execute(environ, argv, stdout):
         config = json.load(f)
 
 
-    display(
-        display_dirname=output_dirnames[args.display_mode],
-        stdout=stdout,
-        num_loops=args.num_loops,
-        cell_char=args.cell_char,
-        seconds_per_frame=config['seconds'] / config['num_frames']
-    )
+    if args.export_filename:
+        export(
+            export_filename=args.export_filename,
+            display_dirname=output_dirnames[args.display_mode],
+            stdout=stdout,
+            cell_char=args.cell_char,
+            seconds_per_frame=config['seconds'] / config['num_frames'],
+            cols=args.cols,
+            rows=args.rows,
+            cell_width=args.cell_width,
+            cell_height=args.cell_height,
+            cpu_pool_size=args.cpu_pool_size,
+            output_dirnames=output_dirnames,
+        )
+    else:
+        display(
+            display_dirname=output_dirnames[args.display_mode],
+            stdout=stdout,
+            num_loops=args.num_loops,
+            cell_char=args.cell_char,
+            seconds_per_frame=config['seconds'] / config['num_frames'],
+        )
 
 
 def main(): # pragma: no cover

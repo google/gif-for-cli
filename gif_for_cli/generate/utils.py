@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-import itertools
 from json.decoder import JSONDecodeError
 import math
 import os
@@ -23,24 +22,9 @@ import requests
 from x256 import x256
 
 from ..constants import X256FGBG_CHARS, STORED_CELL_CHAR
+from ..utils import memoize
 
 from .x256fgbg_utils import top_2_colors
-
-
-def memoize(f):
-    """
-    Caveat: Presumes each arg is hashable, and therefore a valid dict key.
-    """
-    d = {}
-    def wrapper(*args):
-        if args in d:
-            return d[args]
-
-        res = f(*args)
-        d[args] = res
-        return res
-
-    return wrapper
 
 
 def avg(it):
@@ -132,12 +116,3 @@ def process_input_source(input_source, api_key):
 
         input_source = results[0]['media'][0]['mp4']['url']
     return input_source
-
-
-def _log_frame_progress(total, results, stdout):
-    for count, result in enumerate(itertools.chain([None], results)):
-        if count:
-            stdout.write(u'\u001b[2K\u001b[1000D')
-        stdout.write('Processed {}/{} frames...'.format(count, total))
-        stdout.flush()
-    stdout.write('\n')

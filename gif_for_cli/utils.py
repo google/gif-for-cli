@@ -14,7 +14,25 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import argparse
+from multiprocessing import Pool
+import itertools
 import os
+
+
+def memoize(f):
+    """
+    Caveat: Presumes each arg is hashable, and therefore a valid dict key.
+    """
+    d = {}
+    def wrapper(*args):
+        if args in d:
+            return d[args]
+
+        res = f(*args)
+        d[args] = res
+        return res
+
+    return wrapper
 
 
 def _get_default_display_mode(environ):
@@ -45,7 +63,7 @@ def get_parser(environ):
         description="""Convert .gif/.mp4 to animated ASCII art with or wihtout ANSI colors
     and view it in your terminal. Supports querying Tenor GIF API.
     """,
-        formatter_class=argparse.RawTextHelpFormatter
+        formatter_class=argparse.RawTextHelpFormatter,
     )
     parser.add_argument(
         'input_source',
@@ -60,37 +78,38 @@ def get_parser(environ):
     'happy birthday' - searches Tenor for "happy birthday" and gets the first result.
     12345 - gets the GIF with ID 12345 from Tenor.
     [none provided] - gets the first GIF from the Tenor trending endpoint.
-    """
+    """,
     )
     parser.add_argument(
         '--api-key',
         dest='api_key',
         type=str,
         default='TQ7VXFHXBJQ5',
-        help='Tenor API key to perform queries with.'
+        help='Tenor API key to perform queries with.',
     )
     # display related options.
     parser.add_argument(
         '--display-mode',
+        '-m',
         dest='display_mode',
         type=str,
         default=default_display_mode,
         choices=['nocolor', '256', '256fgbg', 'truecolor'],
-        help='Override the auto-detected color support.'
+        help='Override the auto-detected color support.',
     )
     parser.add_argument(
         '-c',
         dest='cell_char',
         type=str,
         default='#',
-        help='Character to use for each colorized cell/block. e.g. #, \u2588, etc.'
+        help='Character to use for each colorized cell/block. e.g. #, \u2588, etc.',
     )
     parser.add_argument(
         '-l',
         dest='num_loops',
         type=int,
         default=3,
-        help='Number of times to repeat animation. 0 will repeat forever.'
+        help='Number of times to repeat animation. 0 will repeat forever.',
     )
     # generation related options.
     parser.add_argument(
@@ -98,28 +117,28 @@ def get_parser(environ):
         dest='cols',
         type=int,
         default=160,
-        help='Maximum number of columns.'
+        help='Maximum number of columns.',
     )
     parser.add_argument(
         '--rows',
         dest='rows',
         type=int,
         default=40,
-        help='Maximum number of rows.'
+        help='Maximum number of rows.',
     )
     parser.add_argument(
         '-cw',
         dest='cell_width',
         type=int,
         default=3,
-        help='Number of pixels in width you want mapped to a single character.'
+        help='Number of pixels in width you want mapped to a single character.',
     )
     parser.add_argument(
         '-ch',
         dest='cell_height',
         type=int,
         default=6,
-        help='Number of pixels in height you want mapped to a single character.'
+        help='Number of pixels in height you want mapped to a single character.',
     )
 
     # generation related options, but doens't affect generated output.
@@ -127,7 +146,17 @@ def get_parser(environ):
         '--pool-size',
         dest='cpu_pool_size',
         type=_pool_type,
-        default=None
+        default=None,
+    )
+
+    # export related options, doens't affect generated output.
+    parser.add_argument(
+        '--export',
+        dest='export_filename',
+        type=str,
+        default='',
+        help="""Specify a filename (.gif, .mp4, etc.) for ffmpeg to export to.
+    Useful for sharing animated ASCII art outside a CLI environment.""",
     )
 
     return parser
@@ -160,3 +189,35 @@ def get_sorted_filenames(dirname, ext):
         for de in sorted(os.scandir(dirname), key=lambda de: de.name)
         if de.is_file() and de.name.endswith('.' + ext)
     )
+
+
+def _log_frame_progress(total, results, stdout):
+    for count, result in enumerate(itertools.chain([None], results)):
+        if count:
+            stdout.write(u'\u001b[2K\u001b[1000D')
+        stdout.write('Processed {}/{} frames...'.format(count, total))
+        stdout.flush()
+    stdout.write('\n')
+
+
+def pool_abstraction(callable, items, pool_size, stdout, **options):
+    total = len(items)
+
+    if pool_size == 1:
+        results = (
+            callable(item, **options)
+            for item in items
+        )
+        _log_frame_progress(total, results, stdout)
+    else:
+        with Pool(pool_size) as pool:
+            # we need this consumed instantly in order for the tasks to begin
+            # execution in parallel.
+            results = [
+                pool.apply_async(callable, [item], options)
+                for item in items
+            ]
+            # then use a generator to iterate as they execute.
+            results = (r.get() for r in results)
+            _log_frame_progress(total, results, stdout)
+

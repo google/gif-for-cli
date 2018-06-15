@@ -84,6 +84,7 @@ frame=   11 fps=0.0 q=20.2 Lsize=N/A time=00:00:01.10 bitrate=N/A speed=3.21x
 video:258kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown"""
 
         mock_process = Mock()
+        mock_process.returncode = 0
         mock_process.communicate.return_value = (out, err,)
         mock_Popen.return_value = mock_process
 
@@ -135,7 +136,7 @@ class TestConvertFrame(unittest.TestCase):
 
 @patch('gif_for_cli.generate.get_sorted_filenames')
 @patch('gif_for_cli.generate.convert_frame')
-@patch('gif_for_cli.generate.Pool')
+@patch('gif_for_cli.utils.Pool')
 class TestConvertFrames(unittest.TestCase):
     def test_1_cpu(self, mock_Pool, mock_convert_frame, mock_get_sorted_filenames):
         mock_get_sorted_filenames.return_value = ['0001.jpg', '0002.jpg']

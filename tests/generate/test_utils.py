@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-import io
 import json
 import unittest
 from unittest.mock import patch, Mock
@@ -27,7 +26,6 @@ from gif_for_cli.generate.utils import (
     get_truecolor_cell,
     get_avg_for_em,
     process_input_source,
-    _log_frame_progress,
 )
 
 from ..fixtures import empty_gif_response, gif_response
@@ -373,27 +371,3 @@ class TestProcessInputSource(unittest.TestCase):
         self.assertEqual(cm.exception.args[0], 'Bad GIF URL.')
         self.assertEqual(mock_exists.call_count, 0)
         self.assertEqual(mock_requests.get.call_count, 0)
-
-
-class TestLogFrameProgress(unittest.TestCase):
-    def test(self):
-        total = 5
-        results = range(0, total)
-        stdout = io.StringIO()
-
-        _log_frame_progress(total, results, stdout)
-
-        output = stdout.getvalue()
-
-        self.assertEqual(output[-1], '\n')
-
-        output = output[:-1].split(u'\u001b[2K\u001b[1000D')
-        
-        self.assertEqual(output, [
-            'Processed 0/5 frames...',
-            'Processed 1/5 frames...',
-            'Processed 2/5 frames...',
-            'Processed 3/5 frames...',
-            'Processed 4/5 frames...',
-            'Processed 5/5 frames...',
-        ])
