@@ -33,16 +33,20 @@ Requires Python 3 (with setuptools and pip), zlib, libjpeg, and ffmpeg, other de
 
 Install dependencies:
 
-    # Debian based distros
-    sudo apt-get install ffmpeg zlib* libjpeg* python3-setuptools
-    # Mac
-    brew install ffmpeg zlib libjpeg python
+```sh
+# Debian based distros
+sudo apt-get install ffmpeg zlib* libjpeg* python3-setuptools
+# Mac
+brew install ffmpeg zlib libjpeg python
+```
 
 Your Python environment may need these installation tools:
 
-    sudo easy_install3 pip
-    # this should enable a pre-built Pillow wheel to be installed, otherwise you may need to install zlib and libjpeg development libraries so Pillow can compile from source.
-    pip3 install --user wheel
+```sh
+sudo easy_install3 pip
+# this should enable a pre-built Pillow wheel to be installed, otherwise you may need to install zlib and libjpeg development libraries so Pillow can compile from source.
+pip3 install --user wheel
+```
 
 Download this repo and run:
 
@@ -54,14 +58,16 @@ Or install from PyPI:
 
 The `gif-for-cli` command will likely be installed into `~/.local/bin`, you may need to put that directory in your $PATH by adding this to your `.profile`:
 
-    # Linux
-    if [ -d "$HOME/.local/bin" ] ; then
-        PATH="$HOME/.local/bin:$PATH"
-    fi
-    # Mac, adjust for Python version
-    if [ -d "$HOME/Library/Python/3.6/bin/" ] ; then
-        PATH="$HOME/Library/Python/3.6/bin/:$PATH"
-    fi
+```sh
+# Linux
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+# Mac, adjust for Python version
+if [ -d "$HOME/Library/Python/3.6/bin/" ] ; then
+    PATH="$HOME/Library/Python/3.6/bin/:$PATH"
+fi
+```
 
 ## Usage
 
@@ -79,16 +85,18 @@ Executing as a Python module is also supported:
 
 Queries to Tenor's GIF API can also be performed:
 
-    # get current top trending GIF
-    gif-for-cli
+```sh
+# get current top trending GIF
+gif-for-cli
 
-    # get top GIF for "Happy Birthday"
-    gif-for-cli "Happy Birthday"
+# get top GIF for "Happy Birthday"
+gif-for-cli "Happy Birthday"
 
-    # get GIF with ID #11699608
-    # browse https://tenor.com/ for more!
-    gif-for-cli 11699608
-    gif-for-cli https://tenor.com/view/rob-delaney-peter-deadpool-deadpool2-untitled-deadpool-sequel-gif-11699608
+# get GIF with ID #11699608
+# browse https://tenor.com/ for more!
+gif-for-cli 11699608
+gif-for-cli https://tenor.com/view/rob-delaney-peter-deadpool-deadpool2-untitled-deadpool-sequel-gif-11699608
+```
 
 ### Override display mode
 
