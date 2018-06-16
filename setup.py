@@ -16,7 +16,25 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 from setuptools import setup, find_packages
+import os
+
 import gif_for_cli
+
+
+# Python doesn't seem to have a consistent way of including non-Python files
+# from outside a package directory, nor an obvious way to map a subpackage to
+# a different directory.
+symlink_path = 'gif_for_cli/third_party'
+try:
+    os.unlink(symlink_path)
+except:
+    pass
+
+os.symlink('../third_party', symlink_path)
+
+packages = find_packages()
+packages.remove('third_party')
+
 
 setup(
     name='gif-for-cli',
@@ -25,8 +43,9 @@ setup(
     author='Seán Hayes',
     author_email='sth@google.com',
     url='https://github.com/google/gif-for-cli',
-    keywords='gif cli',
-    packages=find_packages(),
+    keywords='gif cli terminal ascii ansi',
+    packages=packages,
+    include_package_data=True,
     entry_points = {
         'console_scripts': ['gif-for-cli=gif_for_cli.__main__:main'],
     },
@@ -38,7 +57,6 @@ setup(
     tests_require=[
         'coverage>=4.5.1',
     ],
-    include_package_data=True,
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
@@ -57,3 +75,5 @@ setup(
         'Topic :: Utilities',
     ],
 )
+
+os.unlink(symlink_path)

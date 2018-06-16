@@ -20,6 +20,7 @@ import subprocess
 from PIL import Image, ImageDraw, ImageFont
 from x256 import x256
 
+from . import third_party
 from .constants import STORED_CELL_CHAR, ANSI_RESET
 from .utils import get_sorted_filenames, pool_abstraction, memoize
 
@@ -34,7 +35,7 @@ def export_txt_frame(txt_filename, cell_char, rows, cols, **options):
     img_filename = '{}.png'.format(txt_filename)
 
     font = ImageFont.truetype(
-        os.path.join(os.path.dirname(__file__), '../third_party/Roboto_Mono/RobotoMono-Regular.ttf'),
+        os.path.join(third_party.__path__[0], 'Roboto_Mono/RobotoMono-Regular.ttf'),
         size=24,
     )
     em_size = font.getsize('M')

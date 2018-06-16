@@ -1,1 +1,3 @@
-include third_party/Roboto_Mono/*
+recursive-include gif_for_cli/third_party *
+include LICENSE
+include README.md

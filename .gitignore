@@ -3,3 +3,6 @@ __pycache__/
 *.pyc
 *.pyo
 .coverage
+build/
+dist/
+.eggs/
