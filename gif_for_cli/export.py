@@ -137,9 +137,9 @@ def _run_ffmpeg(export_filename, display_dirname, stdout, seconds_per_frame):
     out, err = p.communicate()
 
     if p.returncode == 0:
-        stdout.write('Exported to:\n{}'.format(export_filename))
+        stdout.write('Exported to:\n{}\n'.format(export_filename))
     else:
-        stdout.write('ffmpeg encountered an error: {}'.format(err))
+        stdout.write('ffmpeg encountered an error: {}\n'.format(err))
 
 
 def _export_txt_frames(txt_frames, cpu_pool_size, stdout, **options):

@@ -210,7 +210,7 @@ video:258kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing o
 
         self.assertEqual(
             self.options['stdout'].getvalue(),
-            'Exported to:\n{cwd}/{export_filename}'.format(cwd=os.getcwd(), **self.options),
+            'Exported to:\n{cwd}/{export_filename}\n'.format(cwd=os.getcwd(), **self.options),
         )
 
     def test_ffmpeg_success_abs_filepath(self, mock_Popen):
@@ -225,7 +225,7 @@ video:258kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing o
 
         self.assertEqual(
             self.options['stdout'].getvalue(),
-            'Exported to:\n{export_filename}'.format(**self.options),
+            'Exported to:\n{export_filename}\n'.format(**self.options),
         )
 
     def test_ffmpeg_failure(self, mock_Popen):
@@ -238,7 +238,7 @@ video:258kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing o
 
         self.assertEqual(
             self.options['stdout'].getvalue(),
-            'ffmpeg encountered an error: {}'.format(self.err),
+            'ffmpeg encountered an error: {}\n'.format(self.err),
         )
 
 
