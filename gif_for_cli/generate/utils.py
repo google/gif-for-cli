@@ -16,7 +16,6 @@ limitations under the License.
 from json.decoder import JSONDecodeError
 import math
 import os
-import urllib.parse
 
 import requests
 from x256 import x256
@@ -85,21 +84,25 @@ def process_input_source(input_source, api_key):
         else:
             raise Exception('Bad GIF URL.')
 
-    is_url = input_source.startswith('http://') or input_source.startswith('https://')
+    is_url = input_source.startswith(('http://', 'https://'))
 
     if not os.path.exists(input_source) and not is_url:
         # get from Tenor GIF API
+        params = {'key': api_key}
         if input_source.isdigit():
             endpoint = 'gifs'
-            query = 'ids={}'.format(urllib.parse.quote_plus(input_source))
+            params.update({'ids': input_source})
         elif input_source == '':
             endpoint = 'trending'
-            query = 'limit=1'
+            params.update({'limit': 1})
         else:
             endpoint = 'search'
-            query = 'limit=1&q={}'.format(urllib.parse.quote_plus(input_source))
+            params.update({'limit': 1, 'q': input_source})
 
-        resp = requests.get('https://api.tenor.com/v1/{}?key={}&{}'.format(endpoint, api_key, query))
+        resp = requests.get(
+            'https://api.tenor.com/v1/{}'.format(endpoint),
+            params=params
+        )
 
         try:
             resp_json = resp.json()
