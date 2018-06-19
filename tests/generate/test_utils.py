@@ -72,8 +72,6 @@ class TestGetAvgForEm(unittest.TestCase):
     def test_default_black_block(self):
         out = get_avg_for_em(self.px, 0, 0, 2, 2)
 
-        out = get_avg_for_em(self.px, 0, 0, 2, 2)
-
         self.assertColor(out, self.black)
 
         out = get_avg_for_em(self.px, 2, 0, 2, 2)
