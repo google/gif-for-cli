@@ -20,42 +20,15 @@ from unittest.mock import patch, Mock
 from PIL import Image
 
 from gif_for_cli.generate.utils import (
-    avg,
     get_gray,
     get_256_cell,
     get_truecolor_cell,
     get_avg_for_em,
     process_input_source,
 )
-
 from ..fixtures import empty_gif_response, gif_response
 
-
 api_key = 'TQ7VXFHXBJQ5'
-
-
-class TestAvg(unittest.TestCase):
-    def test_empty_input_raises_error(self):
-        with self.assertRaises(ZeroDivisionError):
-            avg([])
-
-    def test_single_int_in_float_out(self):
-        out = avg([1])
-
-        self.assertEqual(out, 1.0)
-        self.assertEqual(type(out), float)
-
-    def test_ints_in_float_out(self):
-        out = avg([1, 2])
-
-        self.assertEqual(out, 1.5)
-        self.assertEqual(type(out), float)
-
-    def test_floats_in_float_out(self):
-        out = avg([1.1, 2.2])
-
-        self.assertAlmostEqual(out, 1.65)
-        self.assertEqual(type(out), float)
 
 
 class TestGetGray(unittest.TestCase):
@@ -97,8 +70,6 @@ class TestGetAvgForEm(unittest.TestCase):
             self.assertEqual(type(v), int)
 
     def test_default_black_block(self):
-        out = get_avg_for_em(self.px, 0, 0, 2, 2)
-
         out = get_avg_for_em(self.px, 0, 0, 2, 2)
 
         self.assertColor(out, self.black)

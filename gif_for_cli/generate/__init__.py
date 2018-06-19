@@ -13,26 +13,23 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-from collections import OrderedDict
 import json
 import math
-import os
 import re
 import subprocess
+from collections import OrderedDict
 
 from PIL import Image
 
-from ..constants import ANSI_RESET, NOCOLOR_CHARS
-from ..utils import get_sorted_filenames, pool_abstraction
-
 from .utils import (
-    avg,
     get_gray,
     get_256_cell,
     get_256fgbg_cell,
     get_truecolor_cell,
     get_avg_for_em,
 )
+from ..constants import ANSI_RESET, NOCOLOR_CHARS
+from ..utils import get_sorted_filenames, pool_abstraction
 
 
 def _save_config(num_frames, seconds, **options):
