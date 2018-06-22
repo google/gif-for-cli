@@ -14,7 +14,7 @@ def top_2_colors(r, g, b):
         d = x256.__distance(item, c)
         if(d <= best['distance']):
             if best:
-              second = best
+                second = best
             best = {'distance': d, 'index': index}
 
     return best, second

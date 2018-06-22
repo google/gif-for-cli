@@ -65,6 +65,7 @@ class TestDisplayTxtFrames(unittest.TestCase):
 
         with patch('time.sleep') as mock_sleep:
             num_sleep_calls = 0
+
             def sleep_side_effect(s):
                 nonlocal num_sleep_calls
                 num_sleep_calls += 1

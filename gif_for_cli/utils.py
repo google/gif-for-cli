@@ -24,6 +24,7 @@ def memoize(f):
     Caveat: Presumes each arg is hashable, and therefore a valid dict key.
     """
     d = {}
+
     def wrapper(*args):
         if args in d:
             return d[args]
@@ -227,4 +228,3 @@ def pool_abstraction(callable, items, pool_size, stdout, **options):
             # then use a generator to iterate as they execute.
             results = (r.get() for r in results)
             _log_frame_progress(total, results, stdout)
-

@@ -1,0 +1,34 @@
+sudo: false
+
+language: python
+
+python:
+  - "3.4"
+  - "3.5"
+  - "3.6"
+
+matrix:
+  include:
+    - python: "3.6"
+      env: MODE=flake8
+  allow_failures:
+    - python: "3.4"
+
+cache:
+  directories:
+    - $HOME/.cache/pip
+
+before_cache:
+  - rm -f $HOME/.cache/pip/log/debug.log
+
+# command to install dependencies
+install:
+    - pip install tox coveralls
+
+after_success:
+    - coveralls
+
+# command to run tests
+script:
+    - coverage erase
+    - tox -e py${TRAVIS_PYTHON_VERSION/./}${MODE}

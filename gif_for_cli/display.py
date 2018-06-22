@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-import os
 import time
 
 from .constants import STORED_CELL_CHAR, ANSI_RESET, ANSI_CURSOR_UP
@@ -44,7 +43,6 @@ def display_txt_frames(txt_frames, stdout, num_loops, seconds_per_frame):
         stdout.write('\n')
 
     stdout.flush()
-
 
 
 def get_txt_frames(display_dirname, cell_char):

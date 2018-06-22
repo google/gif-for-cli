@@ -80,8 +80,8 @@ class TestRunFfmpeg(unittest.TestCase):
       encoder         : Lavc57.107.100 mjpeg
     Side data:
       cpb: bitrate max/min/avg: 0/0/200000 buffer size: 0 vbv_delay: -1
-frame=   11 fps=0.0 q=20.2 Lsize=N/A time=00:00:01.10 bitrate=N/A speed=3.21x    
-video:258kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown"""
+frame=   11 fps=0.0 q=20.2 Lsize=N/A time=00:00:01.10 bitrate=N/A speed=3.21x
+video:258kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown"""  # noqa: E501
 
         mock_process = Mock()
         mock_process.returncode = 0
@@ -160,7 +160,7 @@ class TestConvertFrames(unittest.TestCase):
         self.assertEqual(output[-1], '\n')
 
         output = output[:-1].split(u'\u001b[2K\u001b[1000D')
-        
+
         self.assertEqual(output, [
             'Processed 0/2 frames...',
             'Processed 1/2 frames...',
@@ -171,6 +171,7 @@ class TestConvertFrames(unittest.TestCase):
         mock_get_sorted_filenames.return_value = ['0001.jpg', '0002.jpg']
         mock_pool = MagicMock()
         mock_pool.__enter__.return_value = mock_pool
+
         def mock_result(f, args, kwargs):
             m = Mock()
             m.get.return_value = f(*args, **kwargs)
@@ -197,7 +198,7 @@ class TestConvertFrames(unittest.TestCase):
         self.assertEqual(output[-1], '\n')
 
         output = output[:-1].split(u'\u001b[2K\u001b[1000D')
-        
+
         self.assertEqual(output, [
             'Processed 0/2 frames...',
             'Processed 1/2 frames...',

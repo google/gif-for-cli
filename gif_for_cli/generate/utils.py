@@ -27,8 +27,8 @@ from .x256fgbg_utils import top_2_colors
 
 
 def avg(it):
-    l = len(it)
-    return sum(it) / float(l)
+    length = len(it)
+    return sum(it) / float(length)
 
 
 @memoize

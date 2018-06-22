@@ -20,7 +20,6 @@ from os.path import expanduser
 import sys
 
 from . import __version__
-from .constants import STORED_CELL_CHAR
 from .display import display
 from .export import export
 from .generate import generate
@@ -33,11 +32,9 @@ def execute(environ, argv, stdout):
 
     args = parser.parse_args(argv)
 
-
     input_source = args.input_source
 
     input_source_file = process_input_source(input_source, args.api_key)
-
 
     home_dir = expanduser('~')
 
@@ -72,10 +69,8 @@ def execute(environ, argv, stdout):
             cpu_pool_size=args.cpu_pool_size,
         )
 
-
     with open('{}/config.json'.format(output_dirnames['.']), 'r') as f:
         config = json.load(f)
-
 
     if args.export_filename:
         export(
@@ -101,9 +96,9 @@ def execute(environ, argv, stdout):
         )
 
 
-def main(): # pragma: no cover
+def main():  # pragma: no cover
     execute(os.environ, sys.argv[1:], sys.stdout)
 
 
-if __name__ == '__main__': # pragma: no cover
+if __name__ == '__main__':  # pragma: no cover
     main()

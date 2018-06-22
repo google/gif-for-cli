@@ -16,7 +16,6 @@ limitations under the License.
 from collections import OrderedDict
 import json
 import math
-import os
 import re
 import subprocess
 
@@ -26,7 +25,6 @@ from ..constants import ANSI_RESET, NOCOLOR_CHARS
 from ..utils import get_sorted_filenames, pool_abstraction
 
 from .utils import (
-    avg,
     get_gray,
     get_256_cell,
     get_256fgbg_cell,
@@ -53,14 +51,16 @@ def _save_config(num_frames, seconds, **options):
         json.dump(d, f)
 
 
-def _run_ffmpeg(input_source_file, output_dirnames, cols, rows, cell_width, cell_height, **options):
+def _run_ffmpeg(input_source_file, output_dirnames, cols, rows, cell_width,
+        cell_height, **options):
     scale_width = cols * cell_width
     scale_height = rows * cell_height
 
     cmd = [
         'ffmpeg',
         '-i', input_source_file,
-        '-vf', 'scale=w={}:h={}:force_original_aspect_ratio=decrease'.format(scale_width, scale_height),
+        '-vf', 'scale=w={}:h={}:force_original_aspect_ratio=decrease'.format(
+            scale_width, scale_height),
         '{}/%04d.jpg'.format(output_dirnames['jpg']),
     ]
     p = subprocess.Popen(cmd,
@@ -140,7 +140,6 @@ def convert_frame(frame_name, **options):
             lines_nocolor.append(''.join(line_nocolor))
             line_nocolor = None
 
-
     with open('{}/{}.txt'.format(output_dirnames['nocolor'], frame_name), 'w') as f:
         f.write('\n'.join(lines_nocolor))
 
@@ -149,7 +148,7 @@ def convert_frame(frame_name, **options):
 
     with open('{}/{}.txt'.format(output_dirnames['256fgbg'], frame_name), 'w') as f:
         f.write('\n'.join(lines_256fgbg))
-    
+
     with open('{}/{}.txt'.format(output_dirnames['truecolor'], frame_name), 'w') as f:
         f.write('\n'.join(lines_truecolor))
 

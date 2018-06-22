@@ -57,7 +57,7 @@ class TestLogFrameProgress(unittest.TestCase):
         self.assertEqual(output[-1], '\n')
 
         output = output[:-1].split(u'\u001b[2K\u001b[1000D')
-        
+
         self.assertEqual(output, [
             'Processed 0/5 frames...',
             'Processed 1/5 frames...',
@@ -99,7 +99,7 @@ class TestGetOutputDirnames(unittest.TestCase):
             6
         )
 
-        dirname = '/home/foo/.cache/gif-for-cli/0.0.0/2094cb18c10ddb47dbe239ddbd702cc0-160cols-140rows-cw3px-ch6px'
+        dirname = '/home/foo/.cache/gif-for-cli/0.0.0/2094cb18c10ddb47dbe239ddbd702cc0-160cols-140rows-cw3px-ch6px'  # noqa: E501
 
         self.assertEqual(output_dirnames['.'], dirname)
         self.assertEqual(output_dirnames['jpg'], dirname + '/jpg')

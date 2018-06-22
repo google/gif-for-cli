@@ -24,17 +24,25 @@ import gif_for_cli
 # Python doesn't seem to have a consistent way of including non-Python files
 # from outside a package directory, nor an obvious way to map a subpackage to
 # a different directory.
-symlink_path = 'gif_for_cli/third_party'
+current_dir = os.path.dirname(__file__)
+symlink_path = os.path.join(current_dir, 'gif_for_cli', 'third_party')
 try:
     os.unlink(symlink_path)
-except:
+except Exception:
     pass
 
-os.symlink('../third_party', symlink_path)
+third_party_module_existed = False
+try:
+    os.symlink(os.path.join(current_dir, '..', 'third_party'), symlink_path)
+except Exception:
+    third_party_module_existed = True
 
 packages = find_packages()
-packages.remove('third_party')
-
+try:
+    packages.remove('third_party')
+except ValueError:
+    # May not be present in builds.
+    pass
 
 setup(
     name='gif-for-cli',
@@ -46,17 +54,18 @@ setup(
     keywords='gif cli terminal ascii ansi',
     packages=packages,
     include_package_data=True,
-    entry_points = {
+    entry_points={
         'console_scripts': ['gif-for-cli=gif_for_cli.__main__:main'],
     },
     install_requires=[
-        'Pillow>=5.1.0', # PIL Software License
-        'requests>=2.18.4', # Apache License 2.0
-        'x256>=0.0.3', # MIT License
+        'Pillow>=5.1.0',  # PIL Software License
+        'requests>=2.18.4',  # Apache License 2.0
+        'x256>=0.0.3',  # MIT License
     ],
     tests_require=[
         'coverage>=4.5.1',
     ],
+    test_suite='tests',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
@@ -76,4 +85,7 @@ setup(
     ],
 )
 
-os.unlink(symlink_path)
+if not third_party_module_existed:
+    # Only try to unlink if a symlink was created, but not if
+    # gif_for_cli.third_party was directory (inside a distribution).
+    os.unlink(symlink_path)
