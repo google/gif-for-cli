@@ -13,27 +13,22 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-from json.decoder import JSONDecodeError
 import math
 import os
+from json.decoder import JSONDecodeError
+from statistics import mean
 
 import requests
 from x256 import x256
 
+from .x256fgbg_utils import top_2_colors
 from ..constants import X256FGBG_CHARS, STORED_CELL_CHAR
 from ..utils import memoize
-
-from .x256fgbg_utils import top_2_colors
-
-
-def avg(it):
-    length = len(it)
-    return sum(it) / float(length)
 
 
 @memoize
 def get_gray(*rgb):
-    return avg(rgb)
+    return mean(rgb)
 
 
 @memoize
@@ -73,7 +68,7 @@ def get_avg_for_em(px, x, y, cell_height, cell_width):
         for sy in range(y, y + cell_height)
         for sx in range(x, x + cell_width)
     ]
-    return [round(n) for n in map(avg, zip(*pixels))]
+    return [round(n) for n in map(mean, zip(*pixels))]
 
 
 def process_input_source(input_source, api_key):
