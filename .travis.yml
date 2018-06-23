@@ -24,10 +24,7 @@ before_cache:
 # command to install dependencies
 install:
     - pip install tox coveralls
-
-after_success:
-    - coveralls
-
+    - pip install -e .
 # command to run tests
 script:
     - coverage erase
