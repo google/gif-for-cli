@@ -129,9 +129,8 @@ def _run_ffmpeg(export_filename, display_dirname, stdout, seconds_per_frame):
         export_filename,
     ]
     p = subprocess.Popen(cmd,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
+                         stdout=subprocess.PIPE,
+                         stderr=subprocess.PIPE)
     out, err = p.communicate()
 
     if p.returncode == 0:
@@ -145,7 +144,7 @@ def _export_txt_frames(txt_frames, cpu_pool_size, stdout, **options):
 
 
 def export(export_filename, display_dirname, stdout, seconds_per_frame,
-        cpu_pool_size, output_dirnames, **options):
+           cpu_pool_size, output_dirnames, **options):
     txt_frames = _get_txt_frames(display_dirname)
 
     _export_txt_frames(txt_frames, cpu_pool_size, stdout, **options)
