@@ -59,9 +59,9 @@ class TestGetAvgForEm(unittest.TestCase):
     def setUp(self):
         self.im = Image.new('RGB', (100, 100,))
         self.px = self.im.load()
-        self.black = [0, 0, 0,]
-        self.white = [255, 255, 255,]
-        self.gray = [128, 128, 128,]
+        self.black = [0, 0, 0, ]
+        self.white = [255, 255, 255, ]
+        self.gray = [128, 128, 128, ]
 
     def assertColor(self, out, color):
         self.assertEqual(out, color)

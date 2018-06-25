@@ -52,7 +52,7 @@ def _save_config(num_frames, seconds, **options):
 
 
 def _run_ffmpeg(input_source_file, output_dirnames, cols, rows, cell_width,
-        cell_height, **options):
+                cell_height, **options):
     scale_width = cols * cell_width
     scale_height = rows * cell_height
 
@@ -64,9 +64,8 @@ def _run_ffmpeg(input_source_file, output_dirnames, cols, rows, cell_width,
         '{}/%04d.jpg'.format(output_dirnames['jpg']),
     ]
     p = subprocess.Popen(cmd,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
+                         stdout=subprocess.PIPE,
+                         stderr=subprocess.PIPE)
     out, err = p.communicate()
     err = err.decode('utf8')
 

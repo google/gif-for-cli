@@ -28,7 +28,7 @@ from gif_for_cli.__main__ import execute
 @patch('gif_for_cli.__main__.export')
 class TestExecute(unittest.TestCase):
     def test_new(self, mock_export, mock_display, mock_generate,
-            mock_makedirs, mock_process_input_source):
+                 mock_makedirs, mock_process_input_source):
         mock_process_input_source.side_effect = lambda input_source, api_key: input_source
 
         environ = {}
@@ -92,7 +92,7 @@ class TestExecute(unittest.TestCase):
         self.assertEqual(mock_export.call_count, 0)
 
     def test_new_no_display(self, mock_export, mock_display, mock_generate,
-            mock_makedirs, mock_process_input_source):
+                            mock_makedirs, mock_process_input_source):
         mock_process_input_source.side_effect = lambda input_source, api_key: input_source
 
         environ = {}
@@ -156,7 +156,7 @@ class TestExecute(unittest.TestCase):
         self.assertEqual(mock_export.call_count, 0)
 
     def test_cached(self, mock_export, mock_display, mock_generate,
-            mock_makedirs, mock_process_input_source):
+                    mock_makedirs, mock_process_input_source):
         mock_process_input_source.side_effect = lambda input_source, api_key: input_source
 
         environ = {}
@@ -205,7 +205,7 @@ class TestExecute(unittest.TestCase):
         self.assertEqual(mock_export.call_count, 0)
 
     def test_export(self, mock_export, mock_display, mock_generate,
-            mock_makedirs, mock_process_input_source):
+                    mock_makedirs, mock_process_input_source):
         mock_process_input_source.side_effect = lambda input_source, api_key: input_source
 
         environ = {}
