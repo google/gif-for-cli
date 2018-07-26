@@ -166,6 +166,21 @@ Chances are gif-for-cli was installed in a location not on your `PATH`. This can
     gif-for-cli 5863633
     gif-for-cli 5437241
 
+## Module Usage
+
+To add gifs to your cli tool include `gif-for-cli` import and call execute.
+
+```python
+import os
+import sys
+
+from gif_for_cli.execute import execute
+
+execute(os.environ,
+    ["https://tenor.com/view/yay-pokemon-pikachu-gif-8081211"],
+    sys.stdout)
+```
+
 ## Disclaimer
 
 This is not an officially supported Google product.
