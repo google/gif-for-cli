@@ -18,14 +18,14 @@ import json
 import unittest
 from unittest.mock import patch
 
-from gif_for_cli.__main__ import execute
+from gif_for_cli.execute import execute
 
 
-@patch('gif_for_cli.__main__.process_input_source')
-@patch('gif_for_cli.__main__.os.makedirs')
-@patch('gif_for_cli.__main__.generate')
-@patch('gif_for_cli.__main__.display')
-@patch('gif_for_cli.__main__.export')
+@patch('gif_for_cli.execute.process_input_source')
+@patch('gif_for_cli.execute.os.makedirs')
+@patch('gif_for_cli.execute.generate')
+@patch('gif_for_cli.execute.display')
+@patch('gif_for_cli.execute.export')
 class TestExecute(unittest.TestCase):
     def test_new(self, mock_export, mock_display, mock_generate,
             mock_makedirs, mock_process_input_source):
@@ -43,7 +43,7 @@ class TestExecute(unittest.TestCase):
         num_frames = 11
         seconds = 1.1
 
-        with patch('gif_for_cli.__main__.open') as mocked_open:
+        with patch('gif_for_cli.execute.open') as mocked_open:
             mocked_open.return_value = io.StringIO(json.dumps({
                 'input_source': input_source,
                 'input_source_file': input_source,
@@ -55,7 +55,7 @@ class TestExecute(unittest.TestCase):
                 'seconds': seconds,
             }))
 
-            with patch('gif_for_cli.__main__.os.path.exists') as mock_exists:
+            with patch('gif_for_cli.execute.os.path.exists') as mock_exists:
                 mock_exists.return_value = False
 
                 execute(environ, argv, stdout)
@@ -107,7 +107,7 @@ class TestExecute(unittest.TestCase):
         num_frames = 11
         seconds = 1.1
 
-        with patch('gif_for_cli.__main__.open') as mocked_open:
+        with patch('gif_for_cli.execute.open') as mocked_open:
             mocked_open.return_value = io.StringIO(json.dumps({
                 'input_source': input_source,
                 'input_source_file': input_source,
@@ -119,7 +119,7 @@ class TestExecute(unittest.TestCase):
                 'seconds': seconds,
             }))
 
-            with patch('gif_for_cli.__main__.os.path.exists') as mock_exists:
+            with patch('gif_for_cli.execute.os.path.exists') as mock_exists:
                 mock_exists.return_value = False
 
                 execute(environ, argv, stdout)
@@ -171,7 +171,7 @@ class TestExecute(unittest.TestCase):
         num_frames = 11
         seconds = 1.1
 
-        with patch('gif_for_cli.__main__.open') as mocked_open:
+        with patch('gif_for_cli.execute.open') as mocked_open:
             mocked_open.return_value = io.StringIO(json.dumps({
                 'input_source': input_source,
                 'input_source_file': input_source,
@@ -183,7 +183,7 @@ class TestExecute(unittest.TestCase):
                 'seconds': seconds,
             }))
 
-            with patch('gif_for_cli.__main__.os.path.exists') as mock_exists:
+            with patch('gif_for_cli.execute.os.path.exists') as mock_exists:
                 mock_exists.return_value = True
 
                 execute(environ, argv, stdout)
@@ -220,7 +220,7 @@ class TestExecute(unittest.TestCase):
         num_frames = 11
         seconds = 1.1
 
-        with patch('gif_for_cli.__main__.open') as mocked_open:
+        with patch('gif_for_cli.execute.open') as mocked_open:
             mocked_open.return_value = io.StringIO(json.dumps({
                 'input_source': input_source,
                 'input_source_file': input_source,
@@ -232,7 +232,7 @@ class TestExecute(unittest.TestCase):
                 'seconds': seconds,
             }))
 
-            with patch('gif_for_cli.__main__.os.path.exists') as mock_exists:
+            with patch('gif_for_cli.execute.os.path.exists') as mock_exists:
                 mock_exists.return_value = True
 
                 execute(environ, argv, stdout)
