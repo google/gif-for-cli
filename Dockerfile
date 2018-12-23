@@ -5,5 +5,6 @@ RUN set -x \
  && apk add ffmpeg zlib-dev libjpeg-turbo-dev \
             gcc musl-dev \
  && export PATH="$PATH:/root/.local/bin" \
- && pip3 install --user gif-for-cli
+ && pip3 install --user gif-for-cli \
+ && rm -r /var/cache/apk/*
 ENTRYPOINT ["/root/.local/bin/gif-for-cli"]
