@@ -19,7 +19,7 @@ import subprocess
 from PIL import Image, ImageDraw, ImageFont
 from x256 import x256
 
-from . import third_party
+import third_party
 from .constants import STORED_CELL_CHAR
 from .utils import get_sorted_filenames, pool_abstraction, memoize
 
