@@ -71,15 +71,15 @@ def get_avg_for_em(px, x, y, cell_height, cell_width):
     return [round(n) for n in map(mean, zip(*pixels))]
 
 
-def is_tensor_gif(input_source):
+def _is_tenor_gif(input_source):
     return input_source.strip().startswith('https://tenor.com/view/')
 
 
-def is_url(input_source):
+def _is_url(input_source):
     return input_source and input_source.startswith(('http://', 'https://'))
 
 
-def process_tensor_input(input_source):
+def _process_tenor_input(input_source):
     gif_id = input_source.rsplit('-', 1)[-1]
     if gif_id and gif_id.isdigit():
         return gif_id
@@ -87,7 +87,7 @@ def process_tensor_input(input_source):
         raise Exception('Bad GIF URL.')
 
 
-def find_in_tensor(input_source, api_key):
+def _request_tenor(input_source, api_key):
     # get from Tenor GIF API
     params = {'key': api_key}
     if input_source.isdigit():
@@ -100,11 +100,14 @@ def find_in_tensor(input_source, api_key):
         endpoint = 'search'
         params.update({'limit': 1, 'q': input_source})
 
-    resp = requests.get(
+    return requests.get(
         'https://api.tenor.com/v1/{}'.format(endpoint),
         params=params
     )
 
+
+def _find_in_tenor(input_source, api_key):
+    resp = _request_tenor(input_source,api_key)
     try:
         resp_json = resp.json()
     except JSONDecodeError:
@@ -122,10 +125,10 @@ def find_in_tensor(input_source, api_key):
 
 
 def process_input_source(input_source, api_key):
-    if is_tensor_gif(input_source):
-        input_source = process_tensor_input(input_source)
+    if _is_tenor_gif(input_source):
+        input_source = _process_tenor_input(input_source)
 
-    if not os.path.exists(input_source) and not is_url(input_source):
-        return find_in_tensor(input_source,api_key)
+    if not os.path.exists(input_source) and not _is_url(input_source):
+        return _find_in_tenor(input_source,api_key)
 
     return input_source
