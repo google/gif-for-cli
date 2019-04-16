@@ -71,17 +71,25 @@ def get_avg_for_em(px, x, y, cell_height, cell_width):
     return [round(n) for n in map(mean, zip(*pixels))]
 
 
+def is_tensor(input_source):
+    return input_source.strip().startswith('https://tenor.com/view/')
+
+def is_url(input_source):
+    return input_source and input_source.startswith(('http://', 'https://'))
+
+
+def _process_tensor_input(input_source):
+    gif_id = input_source.rsplit('-', 1)[-1]
+    if gif_id and gif_id.isdigit():
+        input_source = gif_id
+    else:
+        raise Exception('Bad GIF URL.')
+
 def process_input_source(input_source, api_key):
-    if input_source.strip().startswith('https://tenor.com/view/'):
-        gif_id = input_source.rsplit('-', 1)[-1]
-        if gif_id.isdigit():
-            input_source = gif_id
-        else:
-            raise Exception('Bad GIF URL.')
+    if is_tensor(input_source):
+        input_source = _process_tensor_input(input_source)
 
-    is_url = input_source.startswith(('http://', 'https://'))
-
-    if not os.path.exists(input_source) and not is_url:
+    if not os.path.exists(input_source) and not is_url(input_source):
         # get from Tenor GIF API
         params = {'key': api_key}
         if input_source.isdigit():
