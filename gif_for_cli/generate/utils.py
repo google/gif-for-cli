@@ -74,6 +74,7 @@ def get_avg_for_em(px, x, y, cell_height, cell_width):
 def is_tensor_gif(input_source):
     return input_source.strip().startswith('https://tenor.com/view/')
 
+
 def is_url(input_source):
     return input_source and input_source.startswith(('http://', 'https://'))
 
@@ -84,6 +85,7 @@ def process_tensor_input(input_source):
         return gif_id
     else:
         raise Exception('Bad GIF URL.')
+
 
 def find_in_tensor(input_source, api_key):
         # get from Tenor GIF API
