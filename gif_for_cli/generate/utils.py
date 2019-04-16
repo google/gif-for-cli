@@ -88,37 +88,37 @@ def process_tensor_input(input_source):
 
 
 def find_in_tensor(input_source, api_key):
-        # get from Tenor GIF API
-        params = {'key': api_key}
-        if input_source.isdigit():
-            endpoint = 'gifs'
-            params.update({'ids': input_source})
-        elif input_source == '':
-            endpoint = 'trending'
-            params.update({'limit': 1})
-        else:
-            endpoint = 'search'
-            params.update({'limit': 1, 'q': input_source})
+    # get from Tenor GIF API
+    params = {'key': api_key}
+    if input_source.isdigit():
+        endpoint = 'gifs'
+        params.update({'ids': input_source})
+    elif input_source == '':
+        endpoint = 'trending'
+        params.update({'limit': 1})
+    else:
+        endpoint = 'search'
+        params.update({'limit': 1, 'q': input_source})
 
-        resp = requests.get(
-            'https://api.tenor.com/v1/{}'.format(endpoint),
-            params=params
-        )
+    resp = requests.get(
+        'https://api.tenor.com/v1/{}'.format(endpoint),
+        params=params
+    )
 
-        try:
-            resp_json = resp.json()
-        except JSONDecodeError:
-            raise Exception('A server error occurred.')
+    try:
+        resp_json = resp.json()
+    except JSONDecodeError:
+        raise Exception('A server error occurred.')
 
-        if 'error' in resp_json:
-            raise Exception('An error occurred: {}'.format(resp_json['error']))
+    if 'error' in resp_json:
+        raise Exception('An error occurred: {}'.format(resp_json['error']))
 
-        results = resp_json.get('results')
+    results = resp_json.get('results')
 
-        if not results:
-            raise Exception('Could not find GIF.')
+    if not results:
+        raise Exception('Could not find GIF.')
 
-        return results[0]['media'][0]['mp4']['url']
+    return results[0]['media'][0]['mp4']['url']
 
 
 def process_input_source(input_source, api_key):
