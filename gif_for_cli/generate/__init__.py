@@ -140,17 +140,15 @@ def convert_frame(frame_name, **options):
             lines_nocolor.append(''.join(line_nocolor))
             line_nocolor = None
 
-    with open('{}/{}.txt'.format(output_dirnames['nocolor'], frame_name), 'w') as f:
-        f.write('\n'.join(lines_nocolor))
+    write_text_file(output_dirnames['nocolor'],frame_name,lines_nocolor)
+    write_text_file(output_dirnames['256'],frame_name,lines_256)
+    write_text_file(output_dirnames['256fgbg'],frame_name,lines_256fgbg)
+    write_text_file(output_dirnames['truecolor'],frame_name,lines_truecolor)
 
-    with open('{}/{}.txt'.format(output_dirnames['256'], frame_name), 'w') as f:
-        f.write('\n'.join(lines_256))
 
-    with open('{}/{}.txt'.format(output_dirnames['256fgbg'], frame_name), 'w') as f:
-        f.write('\n'.join(lines_256fgbg))
-
-    with open('{}/{}.txt'.format(output_dirnames['truecolor'], frame_name), 'w') as f:
-        f.write('\n'.join(lines_truecolor))
+def write_text_file(path,filename,data):
+    with open('{}/{}.txt'.format(path, filename), 'w') as f:
+        f.write('\n'.join(data))
 
 
 def _convert_frames(cpu_pool_size, stdout, **options):
