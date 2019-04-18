@@ -7,7 +7,10 @@ _MAX_DISTANCE = 256 ** 2 * 3
 
 def _get_closest_color(color,amount=1):
     possible_colors = enumerate(x256.colors)
-    def mapper(item): return {"distance":x256.__distance(item[1], color),"index":item[0]}
+
+    def mapper(item):
+        return {"distance":x256.__distance(item[1], color),"index":item[0]}
+
     colors_and_distances = map(mapper,possible_colors)
     return heapq.nsmallest(amount,colors_and_distances,key=lambda item:item["distance"])
 
