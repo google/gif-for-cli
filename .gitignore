@@ -7,5 +7,5 @@ build/
 dist/
 .eggs/
 .tox/
-.idea/*
 .idea/
+.vscode/
