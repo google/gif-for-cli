@@ -29,7 +29,7 @@ def to_rgb(s):
     return tuple(x256.to_rgb(int(s)))
 
 
-def export_txt_frame(txt_filename, cell_char, rows, cols, **options):
+def export_txt_frame(txt_filename, cell_char, rows, cols):
     # PNG is used because JPG looked a little desaturated.
     img_filename = '{}.png'.format(txt_filename)
 

@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="59d324a5-7650-43d0-adbf-fa2f1b1c8877" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project Management - work 6.docx" beforeDir="false" afterPath="$PROJECT_DIR$/Project Management - work 6.docx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gif_for_cli/export.py" beforeDir="false" afterPath="$PROJECT_DIR$/gif_for_cli/export.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gif_for_cli/generate/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gif_for_cli/generate/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/~$oject Management - work 6.docx" beforeDir="false" afterPath="$PROJECT_DIR$/~$oject Management - work 6.docx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,18 +19,15 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gif_for_cli/generate/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="307">
-              <caret line="145" column="31" lean-forward="true" selection-start-line="145" selection-start-column="31" selection-end-line="145" selection-end-column="31" />
+            <state relative-caret-position="1275">
+              <caret line="142" column="38" lean-forward="true" selection-start-line="142" selection-start-column="38" selection-end-line="142" selection-end-column="38" />
               <folding>
                 <element signature="e#0#559#1" />
                 <element signature="e#959#1333#0" />
                 <element signature="e#1449#2183#0" />
-                <element signature="e#2842#3470#0" />
-                <element signature="e#3476#3542#0" />
-                <element signature="e#3925#4084#0" />
-                <element signature="e#4186#4418#0" />
-                <element signature="e#4988#5250#0" />
-                <element signature="e#5282#5438#0" />
+                <element signature="e#4755#4844#0" />
+                <element signature="e#4906#5168#0" />
+                <element signature="e#5200#5356#0" />
               </folding>
             </state>
           </provider>
@@ -40,6 +38,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>options</find>
+      <find>get_output_dirnames</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -48,12 +47,15 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/gif_for_cli/display.py" />
         <option value="$PROJECT_DIR$/gif_for_cli/export.py" />
+        <option value="$PROJECT_DIR$/gif_for_cli/execute.py" />
+        <option value="$PROJECT_DIR$/gif_for_cli/utils.py" />
         <option value="$PROJECT_DIR$/gif_for_cli/generate/__init__.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="950" />
     <option name="width" value="980" />
     <option name="height" value="1040" />
@@ -122,20 +124,23 @@
       <updated>1555323020770</updated>
       <workItem from="1555323023395" duration="1723000" />
       <workItem from="1555425247081" duration="3606000" />
+      <workItem from="1555579133953" duration="1265000" />
+      <workItem from="1555593656555" duration="3690000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5329000" />
+    <option name="totallyTimeSpent" value="10284000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17718121" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1704698" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.76628894" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -158,17 +163,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/gif_for_cli/export.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="59" column="25" lean-forward="true" selection-start-line="59" selection-start-column="25" selection-end-line="59" selection-end-column="25" />
-          <folding>
-            <element signature="e#560#569#0" expanded="true" />
-            <element signature="e#2639#3159#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/unittest/mock.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -183,20 +177,77 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_display.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="78" selection-start-line="78" selection-end-line="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/unittest/loader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="152" selection-start-line="152" selection-end-line="152" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gif_for_cli/export.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="31" column="56" selection-start-line="31" selection-start-column="56" selection-end-line="31" selection-end-column="56" />
+          <folding>
+            <element signature="e#560#569#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gif_for_cli/display.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="539">
+          <caret line="57" column="58" lean-forward="true" selection-start-line="57" selection-start-column="58" selection-end-line="57" selection-end-column="58" />
+          <folding>
+            <element signature="e#0#559#1" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gif_for_cli/execute.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
+          <folding>
+            <element signature="e#0#559#1" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gif_for_cli/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="52">
+          <caret line="172" column="18" selection-start-line="172" selection-start-column="18" selection-end-line="172" selection-end-column="18" />
+          <folding>
+            <element signature="e#658#914#0" />
+            <element signature="e#961#1278#0" />
+            <element signature="e#1306#1462#0" />
+            <element signature="e#1494#4734#0" />
+            <element signature="e#5591#5747#0" />
+            <element signature="e#5803#6054#0" />
+            <element signature="e#6130#6785#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/gif_for_cli/generate/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="145" column="31" lean-forward="true" selection-start-line="145" selection-start-column="31" selection-end-line="145" selection-end-column="31" />
+        <state relative-caret-position="1275">
+          <caret line="142" column="38" lean-forward="true" selection-start-line="142" selection-start-column="38" selection-end-line="142" selection-end-column="38" />
           <folding>
             <element signature="e#0#559#1" />
             <element signature="e#959#1333#0" />
             <element signature="e#1449#2183#0" />
-            <element signature="e#2842#3470#0" />
-            <element signature="e#3476#3542#0" />
-            <element signature="e#3925#4084#0" />
-            <element signature="e#4186#4418#0" />
-            <element signature="e#4988#5250#0" />
-            <element signature="e#5282#5438#0" />
+            <element signature="e#4755#4844#0" />
+            <element signature="e#4906#5168#0" />
+            <element signature="e#5200#5356#0" />
           </folding>
         </state>
       </provider>
