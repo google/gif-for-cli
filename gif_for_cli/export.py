@@ -29,7 +29,49 @@ def to_rgb(s):
     return tuple(x256.to_rgb(int(s)))
 
 
-def export_txt_frame(txt_filename, cell_char, rows, cols):
+def set_bg_fg(escape_seq):
+    bg = (0, 0, 0,)
+    fg = (255, 255, 255,)
+    if escape_seq == '[0':
+        # reset
+        bg = (0, 0, 0,)
+        fg = (255, 255, 255,)
+    elif escape_seq.startswith('[48;5;'):
+        # 256 BG
+        bg = to_rgb(escape_seq[6:])
+    elif escape_seq.startswith('[38;5;'):
+        # 256 FG
+        fg = to_rgb(escape_seq[6:])
+    elif escape_seq.startswith('[38;2;'):
+        # truecolor FG
+        fg = tuple([int(c) for c in escape_seq[6:].split(';')])
+    return [bg, fg]
+
+
+def set_escape_seq(escape_seq):
+    # act on escape_seq
+    escape_seq = ''.join(escape_seq)
+
+    lst = set_bg_fg(escape_seq)
+    bg = lst[0]
+    fg = lst[1]
+
+    escaped = False
+    escape_seq = []
+    return [escaped, escape_seq]
+
+
+def check_char_and_set_escaped(char, escape_seq, escaped):
+    if char == 'm':
+        lst = set_escape_seq(escape_seq)
+        escaped = lst[0]
+        escape_seq = lst[1]
+    else:
+        escape_seq.append(char)
+    return [escape_seq, escaped]
+
+
+def export_txt_frame(txt_filename, cell_char, rows, cols, **options):
     # PNG is used because JPG looked a little desaturated.
     img_filename = '{}.png'.format(txt_filename)
 
@@ -58,28 +100,9 @@ def export_txt_frame(txt_filename, cell_char, rows, cols):
             if char == u'\u001b':
                 escaped = True
             elif escaped:
-                if char == 'm':
-                    # act on escape_seq
-                    escape_seq = ''.join(escape_seq)
-
-                    if escape_seq == '[0':
-                        # reset
-                        bg = (0, 0, 0,)
-                        fg = (255, 255, 255,)
-                    elif escape_seq.startswith('[48;5;'):
-                        # 256 BG
-                        bg = to_rgb(escape_seq[6:])
-                    elif escape_seq.startswith('[38;5;'):
-                        # 256 FG
-                        fg = to_rgb(escape_seq[6:])
-                    elif escape_seq.startswith('[38;2;'):
-                        # truecolor FG
-                        fg = tuple([int(c) for c in escape_seq[6:].split(';')])
-
-                    escaped = False
-                    escape_seq = []
-                else:
-                    escape_seq.append(char)
+                lst = check_char_and_set_escaped(char, escape_seq, escaped)
+                escape_seq = lst[0]
+                escaped = lst[1]
             else:
                 # draw char on background
                 x = col * img_cell_width
