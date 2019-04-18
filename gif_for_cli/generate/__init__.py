@@ -76,6 +76,21 @@ def _run_ffmpeg(input_source_file, output_dirnames, cols, rows, cell_width,
     return num_frames, seconds
 
 
+def setup_lines_nocolor(chars_nocolor, char_idxs, cols):
+    lines_nocolor = []
+    line_nocolor = None
+    for i, gray in enumerate(chars_nocolor):
+        if not line_nocolor:
+            line_nocolor = []
+
+        line_nocolor.append(NOCOLOR_CHARS[char_idxs[gray]])
+
+        if (i + 1) % cols == 0:
+            lines_nocolor.append(''.join(line_nocolor))
+            line_nocolor = None
+    return lines_nocolor
+
+
 def convert_frame(frame_name, **options):
     cell_height = options['cell_height']
     cell_width = options['cell_width']
@@ -128,22 +143,12 @@ def convert_frame(frame_name, **options):
         char_idxs[cell] = cur_char_idx
         cur_count += cell_num
 
-    lines_nocolor = []
-    line_nocolor = None
-    for i, gray in enumerate(chars_nocolor):
-        if not line_nocolor:
-            line_nocolor = []
+    lines_nocolor = setup_lines_nocolor(chars_nocolor, char_idxs, cols)
 
-        line_nocolor.append(NOCOLOR_CHARS[char_idxs[gray]])
-
-        if (i + 1) % cols == 0:
-            lines_nocolor.append(''.join(line_nocolor))
-            line_nocolor = None
-
-    write_text_file(output_dirnames['nocolor'],frame_name,lines_nocolor)
-    write_text_file(output_dirnames['256'],frame_name,lines_256)
-    write_text_file(output_dirnames['256fgbg'],frame_name,lines_256fgbg)
-    write_text_file(output_dirnames['truecolor'],frame_name,lines_truecolor)
+    write_text_file(output_dirnames['nocolor'], frame_name, lines_nocolor)
+    write_text_file(output_dirnames['256'], frame_name, lines_256)
+    write_text_file(output_dirnames['256fgbg'], frame_name, lines_256fgbg)
+    write_text_file(output_dirnames['truecolor'], frame_name, lines_truecolor)
 
 
 def write_text_file(path,filename,data):
