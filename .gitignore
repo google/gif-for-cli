@@ -6,3 +6,6 @@ __pycache__/
 build/
 dist/
 .eggs/
+.tox/
+.idea/
+.vscode/

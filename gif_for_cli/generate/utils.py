@@ -71,46 +71,64 @@ def get_avg_for_em(px, x, y, cell_height, cell_width):
     return [round(n) for n in map(mean, zip(*pixels))]
 
 
+def _is_tenor_gif(input_source):
+    return input_source.strip().startswith('https://tenor.com/view/')
+
+
+def _is_url(input_source):
+    return input_source and input_source.startswith(('http://', 'https://'))
+
+
+def _process_tenor_input(input_source):
+    gif_id = input_source.rsplit('-', 1)[-1]
+    if gif_id and gif_id.isdigit():
+        return gif_id
+    else:
+        raise Exception('Bad GIF URL.')
+
+
+def _request_tenor(input_source, api_key):
+    # get from Tenor GIF API
+    params = {'key': api_key}
+    if input_source.isdigit():
+        endpoint = 'gifs'
+        params.update({'ids': input_source})
+    elif input_source == '':
+        endpoint = 'trending'
+        params.update({'limit': 1})
+    else:
+        endpoint = 'search'
+        params.update({'limit': 1, 'q': input_source})
+
+    return requests.get(
+        'https://api.tenor.com/v1/{}'.format(endpoint),
+        params=params
+    )
+
+
+def _find_in_tenor(input_source, api_key):
+    resp = _request_tenor(input_source,api_key)
+    try:
+        resp_json = resp.json()
+    except JSONDecodeError:
+        raise Exception('A server error occurred.')
+
+    if 'error' in resp_json:
+        raise Exception('An error occurred: {}'.format(resp_json['error']))
+
+    results = resp_json.get('results')
+
+    if not results:
+        raise Exception('Could not find GIF.')
+
+    return results[0]['media'][0]['mp4']['url']
+
+
 def process_input_source(input_source, api_key):
-    if input_source.strip().startswith('https://tenor.com/view/'):
-        gif_id = input_source.rsplit('-', 1)[-1]
-        if gif_id.isdigit():
-            input_source = gif_id
-        else:
-            raise Exception('Bad GIF URL.')
+    if _is_tenor_gif(input_source):
+        input_source = _process_tenor_input(input_source)
 
-    is_url = input_source.startswith(('http://', 'https://'))
+    if not os.path.exists(input_source) and not _is_url(input_source):
+        return _find_in_tenor(input_source,api_key)
 
-    if not os.path.exists(input_source) and not is_url:
-        # get from Tenor GIF API
-        params = {'key': api_key}
-        if input_source.isdigit():
-            endpoint = 'gifs'
-            params.update({'ids': input_source})
-        elif input_source == '':
-            endpoint = 'trending'
-            params.update({'limit': 1})
-        else:
-            endpoint = 'search'
-            params.update({'limit': 1, 'q': input_source})
-
-        resp = requests.get(
-            'https://api.tenor.com/v1/{}'.format(endpoint),
-            params=params
-        )
-
-        try:
-            resp_json = resp.json()
-        except JSONDecodeError:
-            raise Exception('A server error occurred.')
-
-        if 'error' in resp_json:
-            raise Exception('An error occurred: {}'.format(resp_json['error']))
-
-        results = resp_json.get('results')
-
-        if not results:
-            raise Exception('Could not find GIF.')
-
-        input_source = results[0]['media'][0]['mp4']['url']
     return input_source
