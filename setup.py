@@ -20,6 +20,20 @@ import os
 
 import gif_for_cli
 
+#GW - Add Windows Symlink support...requires elevated CMD / Powershell Prompt
+if os.name == "nt":
+    def symlink_ms(source, link_name):
+        import ctypes
+        csl = ctypes.windll.kernel32.CreateSymbolicLinkW
+        csl.argtypes = (ctypes.c_wchar_p, ctypes.c_wchar_p, ctypes.c_uint32)
+        csl.restype = ctypes.c_ubyte
+        flags = 1 if os.path.isdir(source) else 0
+        try:
+            if csl(link_name, source.replace('/', '\\'), flags) == 0:
+                raise ctypes.WinError()
+        except:
+            pass
+    os.symlink = symlink_ms
 
 # Python doesn't seem to have a consistent way of including non-Python files
 # from outside a package directory, nor an obvious way to map a subpackage to
