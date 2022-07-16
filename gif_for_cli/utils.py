@@ -156,6 +156,13 @@ def get_parser(environ):
         help='Skip displaying ASCII in terminal, useful for pre-caching output.',
     )
 
+    parser.add_argument(
+        '--show_path',
+        dest='show_path',
+        action='store_true',
+        help='Print path to generated files, for use with --no_display mode.',
+    )
+
     # export related options, doens't affect generated output.
     parser.add_argument(
         '--export',
