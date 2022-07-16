@@ -85,6 +85,8 @@ def execute(environ, argv, stdout):
             cpu_pool_size=args.cpu_pool_size,
             output_dirnames=output_dirnames,
         )
+    elif args.no_display and args.show_path:
+        print(output_dirnames[args.display_mode])
     elif not args.no_display:
         display(
             display_dirname=output_dirnames[args.display_mode],
