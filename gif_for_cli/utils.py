@@ -61,7 +61,7 @@ def get_parser(environ):
 
     parser = argparse.ArgumentParser(
         prog='gif_for_cli',
-        description="""Convert .gif/.mp4 to animated ASCII art with or wihtout ANSI colors
+        description="""Convert .gif/.mp4 to animated ASCII art with or without ANSI colors
     and view it in your terminal. Supports querying Tenor GIF API.
     """,
         formatter_class=argparse.RawTextHelpFormatter,
@@ -155,9 +155,8 @@ def get_parser(environ):
         action='store_true',
         help='Skip displaying ASCII in terminal, useful for pre-caching output.',
     )
-
     parser.add_argument(
-        '--show_path',
+        '--show-path',
         dest='show_path',
         action='store_true',
         help='Print path to generated files, for use with --no_display mode.',
