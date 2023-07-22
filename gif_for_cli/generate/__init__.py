@@ -39,6 +39,7 @@ def _save_config(num_frames, seconds, **options):
         for key in [
             'input_source',
             'input_source_file',
+            'rows',
             'cols',
             'cell_width',
             'cell_height',
