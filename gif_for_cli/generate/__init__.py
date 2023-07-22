@@ -72,8 +72,13 @@ def _run_ffmpeg(input_source_file, output_dirnames, cols, rows, cell_width,
     err = err.decode('utf8')
 
     num_frames = int(re.search(r'frame=\s*(\d+)', err).group(1))
+    if (num_frames == 0):
+        num_frames = int(re.findall(r'frame=\s*(\d+)', err)[1])
     hours, minutes, seconds = re.search(r'time=(\d{2}):(\d{2}):(\d{2}.\d{2})', err).groups()
     seconds = float(seconds) + (int(minutes) * 60) + (int(hours) * 3600)
+    if (seconds == 0):
+        hours, minutes, seconds, = re.findall(r'time=(\d{2}):(\d{2}):(\d{2}.\d{2})', err)[1]
+        seconds = float(seconds) + (int(minutes) * 60) + (int(hours) * 3600)
     return num_frames, seconds
 
 
