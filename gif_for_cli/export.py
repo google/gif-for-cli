@@ -37,7 +37,11 @@ def export_txt_frame(txt_filename, cell_char, rows, cols, **options):
         os.path.join(third_party.__path__[0], 'Roboto_Mono/RobotoMono-Regular.ttf'),
         size=24,
     )
-    em_size = font.getsize('M')
+    if hasattr(font, 'getbbox'):
+        left, top, right, bottom = font.getbbox('M')
+        em_size = (right - left, bottom - top)
+    else:
+        em_size = font.getsize('M')
 
     img_cell_width = em_size[0]
     img_cell_height = int(em_size[1] * 1.25)
